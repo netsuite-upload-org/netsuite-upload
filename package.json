@@ -1,0 +1,71 @@
+{
+  "name": "netsuite-upload",
+  "displayName": "NetSuite Upload",
+  "description": "NetSuite Upload Extension",
+  "version": "0.0.1",
+  "publisher": "tvrdytomas",
+  "engines": {
+    "vscode": "^1.5.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.downloadFile",
+    "onCommand:extension.uploadFile"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "NetSuite Connection Configuration",
+      "properties": {
+        "netSuiteUpload.authentication": { 
+          "type": "string", 
+          "description": "Authentication header"
+        },
+        "netSuiteUpload.restlet": { 
+          "type": "string",
+          "description": "Restlet URL" 
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "extension.downloadFile",
+        "title": "Pull from NetSuite"
+      },
+      {
+        "command": "extension.uploadFile",
+        "title": "Push to NetSuite"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "",
+          "command": "extension.downloadFile",
+          "group": "netsuite"
+        }, {
+          "when": "",
+          "command": "extension.uploadFile",
+          "group": "netsuite"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0",
+    "mocha": "^2.3.3",
+    "eslint": "^3.6.0",
+    "@types/node": "^6.0.40",
+    "@types/mocha": "^2.2.32"
+  },
+  "dependencies": {
+    "node-rest-client": "^2.0.1"
+  }
+}
