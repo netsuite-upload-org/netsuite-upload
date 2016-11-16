@@ -12,7 +12,9 @@
   ],
   "activationEvents": [
     "onCommand:extension.downloadFile",
-    "onCommand:extension.uploadFile"
+    "onCommand:extension.uploadFile",
+    "onCommand:extension.previewFile",
+    "onCommand:extension.downloadFolder"
   ],
   "main": "./extension",
   "contributes": {
@@ -27,6 +29,10 @@
         "netSuiteUpload.restlet": { 
           "type": "string",
           "description": "Restlet URL" 
+        },
+        "netSuiteUpload.tempFolder": { 
+          "type": "string",
+          "description": "Temporary folder (e.g. C:\\temp)" 
         }
       }
     },
@@ -34,21 +40,40 @@
       {
         "command": "extension.downloadFile",
         "title": "Pull from NetSuite"
-      },
+      }, 
+      {
+        "command": "extension.previewFile",
+        "title": "Compare to NetSuite"
+      }, 
       {
         "command": "extension.uploadFile",
         "title": "Push to NetSuite"
+      },
+      {
+        "command": "extension.downloadFolder",
+        "title": "Pull files from NetSuite"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "when": "",
+          "when": "resourceLangId",
           "command": "extension.downloadFile",
           "group": "netsuite"
-        }, {
-          "when": "",
+        },
+        {
+          "when": "resourceLangId",
+          "command": "extension.previewFile",
+          "group": "netsuite"
+        },
+        {
+          "when": "resourceLangId",
           "command": "extension.uploadFile",
+          "group": "netsuite"
+        },
+        {
+          "when": "!resourceLangId",
+          "command": "extension.downloadFolder",
           "group": "netsuite"
         }
       ]
