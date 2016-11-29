@@ -1,55 +1,5 @@
 let vscode = require('vscode');
-let RestClient = require('node-rest-client').Client;
-let fs = require('fs');
-
-function getRelativePath(absFilePath) {
-    return absFilePath.slice(vscode.workspace.rootPath.length);
-}
-
-function downloadFileFromNetSuite(fullFileName) {
-    var relativeFileName = getRelativePath(fullFileName);
-    
-    var client = new RestClient();
-    var args = {
-        path: { fileName: relativeFileName },
-        headers: {                
-            "Content-Type": "text/plain",
-            "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
-        }
-    };
-
-    var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload')['restlet'];
-    client.get(baseRestletURL + '&fileName=${fileName}', args, function (data) {
-        fs.writeFile(fullFileName, data.toString());
-        vscode.window.showInformationMessage('File "' + relativeFileName + '" downloaded.');
-    });
-}
-
-function previewFileFromNetSuite(file) {
-    var relativeFileName = getRelativePath(file.fsPath);
-    
-    var client = new RestClient();
-    var args = {
-        path: { fileName: relativeFileName },
-        headers: {                
-            "Content-Type": "text/plain",
-            "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
-        }
-    };
-
-    var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload')['restlet'];
-    client.get(baseRestletURL + '&fileName=${fileName}', args, function (data) {
-
-        var tempFolder = vscode.workspace.getConfiguration('netSuiteUpload')['tempFolder'];
-        var filePathArray = (relativeFileName.split('.')[0] + '.preview.' + relativeFileName.split('.')[1]).split('\\');
-        var newPreviewFile = tempFolder + '\\' + filePathArray[filePathArray.length-1];
-
-        fs.writeFile(newPreviewFile, data.toString());
-
-        var nsFile = vscode.Uri.file(newPreviewFile);
-        vscode.commands.executeCommand('vscode.diff', file, nsFile, 'Local <--> NetSuite');        
-    });
-}
+let netSuiteBl = require('./bl/netSuiteBl');
 
 function activate(context) {
     console.log('Extension "netsuite-upload" is now active!');
@@ -61,7 +11,7 @@ function activate(context) {
             return;
         }
         
-        downloadFileFromNetSuite(file.fsPath);
+        netSuiteBl.downloadFileFromNetSuite(file);
     });
     context.subscriptions.push(downloadFileDisposable);
 
@@ -72,7 +22,7 @@ function activate(context) {
             return;
         }
         
-        previewFileFromNetSuite(file);
+        netSuiteBl.previewFileFromNetSuite(file);
     });
     context.subscriptions.push(previewFileDisposable);
 
