@@ -22,36 +22,36 @@
       "type": "object",
       "title": "NetSuite Connection Configuration",
       "properties": {
-        "netSuiteUpload.authentication": { 
-          "type": "string", 
+        "netSuiteUpload.authentication": {
+          "type": "string",
           "description": "Authentication header"
         },
-        "netSuiteUpload.restlet": { 
+        "netSuiteUpload.restlet": {
           "type": "string",
-          "description": "Restlet URL" 
+          "description": "Restlet URL"
         },
-        "netSuiteUpload.tempFolder": { 
+        "netSuiteUpload.tempFolder": {
           "type": "string",
-          "description": "Temporary folder (e.g. C:\\temp)" 
+          "description": "Temporary folder (e.g. C:\\temp)"
         }
       }
     },
     "commands": [
       {
         "command": "extension.downloadFile",
-        "title": "Pull from NetSuite"
-      }, 
+        "title": "Pull file from NetSuite"
+      },
       {
         "command": "extension.previewFile",
-        "title": "Compare to NetSuite"
-      }, 
+        "title": "Compare file with NetSuite"
+      },
       {
         "command": "extension.uploadFile",
-        "title": "Push to NetSuite"
+        "title": "Push file to NetSuite"
       },
       {
         "command": "extension.downloadFolder",
-        "title": "Pull files from NetSuite"
+        "title": "Pull folder from NetSuite"
       }
     ],
     "menus": {

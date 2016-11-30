@@ -6,22 +6,31 @@ function getRelativePath(absFilePath) {
 }
 
 function getFile(file, callback) {
-    var relativeFileName = getRelativePath(file.fsPath);
+    getData('file', file.fsPath, callback);
+}
+
+function getDirectory(directory, callback) {
+    getData('directory', directory.fsPath, callback);
+}
+
+function getData(type, objectPath, callback) {
+    var relativeName = getRelativePath(objectPath);
     
     var client = new RestClient();
     var args = {
-        path: { fileName: relativeFileName },
+        path: { name: relativeName },
         headers: {                
-            "Content-Type": "text/plain",
+            "Content-Type": "application/json",
             "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
         }
     };
 
     var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload')['restlet'];
-    client.get(baseRestletURL + '&fileName=${fileName}', args, function (data) {
+    client.get(baseRestletURL + '&type=' + type + '&name=${name}', args, function (data) {
         callback(data);
     });
 }
 
 exports.getRelativePath = getRelativePath;
 exports.getFile = getFile;
+exports.getDirectory = getDirectory;

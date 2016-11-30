@@ -35,10 +35,14 @@ function activate(context) {
     });
     context.subscriptions.push(uploadFileDisposable);
 
-    let downloadFolderDisposable = vscode.commands.registerCommand('extension.downloadFolder', (folder) => {
-
-        // TODO:
+    let downloadFolderDisposable = vscode.commands.registerCommand('extension.downloadFolder', (directory) => {
+        // Root SuiteScript folder has to be opened 
+        if (!vscode.workspace.rootPath) {
+            vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
+            return;
+        }
         
+        netSuiteBl.downloadDirectoryFromNetSuite(directory);
     });
     context.subscriptions.push(downloadFolderDisposable);
 
