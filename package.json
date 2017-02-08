@@ -13,6 +13,7 @@
   "activationEvents": [
     "onCommand:extension.downloadFile",
     "onCommand:extension.uploadFile",
+    "onCommand:extension.deleteFile",
     "onCommand:extension.previewFile",
     "onCommand:extension.downloadFolder"
   ],
@@ -50,6 +51,10 @@
         "title": "Push file to NetSuite"
       },
       {
+        "command": "extension.deleteFile",
+        "title": "Delete file in NetSuite"
+      },
+      {
         "command": "extension.downloadFolder",
         "title": "Pull folder from NetSuite"
       }
@@ -69,6 +74,11 @@
         {
           "when": "resourceLangId",
           "command": "extension.uploadFile",
+          "group": "netsuite"
+        },
+        {
+          "when": "resourceLangId",
+          "command": "extension.deleteFile",
           "group": "netsuite"
         },
         {

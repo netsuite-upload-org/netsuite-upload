@@ -26,14 +26,27 @@ function activate(context) {
     });
     context.subscriptions.push(previewFileDisposable);
 
-
-
     let uploadFileDisposable = vscode.commands.registerCommand('extension.uploadFile', (file) => {
-
-        // TODO:
+        // Root SuiteScript folder has to be opened 
+        if (!vscode.workspace.rootPath) {
+            vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
+            return;
+        }
         
-    });
+        netSuiteBl.uploadFileToNetSuite(file);        
+    });    
     context.subscriptions.push(uploadFileDisposable);
+
+    let deleteFileDisposable = vscode.commands.registerCommand('extension.deleteFile', (file) => {
+        // Root SuiteScript folder has to be opened 
+        if (!vscode.workspace.rootPath) {
+            vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
+            return;
+        }
+        
+        netSuiteBl.deleteFileInNetSuite(file);        
+    });    
+    context.subscriptions.push(deleteFileDisposable);
 
     let downloadFolderDisposable = vscode.commands.registerCommand('extension.downloadFolder', (directory) => {
         // Root SuiteScript folder has to be opened 

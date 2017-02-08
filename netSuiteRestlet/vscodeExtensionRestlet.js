@@ -80,6 +80,7 @@ define(['N/file', 'N/search'], function (file, search) {
                 var fileContent = file.load({ id: fileId }).getContents();
 
                 files.push({
+                    type: 'file',
                     name: fileName,
                     fullPath: folderPath + '/' + fileName,
                     content: fileContent
@@ -87,6 +88,14 @@ define(['N/file', 'N/search'], function (file, search) {
             }
             return true;
         });
+
+        // In case of empty folder return the folder name
+        if (files.length == 0) {
+            files.push({
+                type: 'folder',
+                fullPath: folderPath
+            });
+        }
 
         return files;
     }
@@ -116,7 +125,66 @@ define(['N/file', 'N/search'], function (file, search) {
         return allFiles;
     }
 
-    function get(request) {
+    function updateFile(existingFile, content) {
+        var fileObj = file.create({
+            name: existingFile.name,
+            fileType: existingFile.fileType,
+            contents: content,
+            description: existingFile.description,
+            encoding: existingFile.encoding,
+            folder: existingFile.folder,
+            isOnline: existingFile.isOnline
+        });
+        fileObj.save();
+    }
+
+    function createFile(filePath, content) {
+        var pathArray = filePath.split('/');
+        var name = pathArray[pathArray.length-1];
+        var type = getFileType(name);
+        var folder = getFolderId(filePath.substring(0, filePath.lastIndexOf('/')));
+
+        var fileObj = file.create({
+            name: name,
+            fileType: type,
+            contents: content,
+            folder: folder
+        });
+        fileObj.save();
+    }
+
+    function getFileType(fileName) {
+
+        // TODO: differentiate according to the file extension
+        return file.Type.JAVASCRIPT;
+
+    }
+
+    function postFile(relFilePath, content) {
+        var fullFilePath = 'SuiteScripts' + relFilePath;
+
+        try {
+            var loadedFile = file.load({
+                id: fullFilePath
+            });
+            updateFile(loadedFile, content);
+        } catch(e) {
+            if (e.name == 'RCRD_DSNT_EXIST') {
+                createFile(fullFilePath, content);
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    function deleteFile(relFilePath) {
+        var fullFilePath = 'SuiteScripts' + relFilePath;
+
+        var fileObject = file.load({ id: fullFilePath });
+        file.delete({ id: fileObject.id });
+    }
+
+    function getFunc(request) {
         var type = request.type; // directory, file
         var relPath = request.name.split('\\').join('/');
         // TODO: fix request.name == EMPTY STRING
@@ -129,7 +197,21 @@ define(['N/file', 'N/search'], function (file, search) {
         }
     }
 
+    function postFunc(request) {
+        var relPath = request.name.split('\\').join('/');
+        
+        postFile(relPath, request.content);
+    }
+
+    function deleteFunc(request) {
+        var relPath = request.name.split('\\').join('/');
+        
+        deleteFile(relPath);
+    }
+
     return {
-        get: get
+        get: getFunc,
+        post: postFunc,
+        delete: deleteFunc
     }
 });
