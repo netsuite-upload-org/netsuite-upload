@@ -1,106 +1,106 @@
 {
-  "name": "netsuite-upload",
-  "displayName": "NetSuite Upload",
-  "description": "NetSuite Upload Extension",
-  "version": "0.0.1",
-  "publisher": "tvrdytomas",
-  "engines": {
-    "vscode": "^1.5.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:extension.downloadFile",
-    "onCommand:extension.uploadFile",
-    "onCommand:extension.deleteFile",
-    "onCommand:extension.previewFile",
-    "onCommand:extension.downloadFolder"
-  ],
-  "main": "./extension",
-  "contributes": {
-    "configuration": {
-      "type": "object",
-      "title": "NetSuite Connection Configuration",
-      "properties": {
-        "netSuiteUpload.authentication": {
-          "type": "string",
-          "description": "Authentication header"
-        },
-        "netSuiteUpload.restlet": {
-          "type": "string",
-          "description": "Restlet URL"
-        },
-        "netSuiteUpload.tempFolder": {
-          "type": "string",
-          "description": "Temporary folder (e.g. C:\\temp)"
-        }
-      }
+    "name": "netsuite-upload",
+    "displayName": "NetSuite Upload",
+    "description": "NetSuite Upload Extension",
+    "version": "0.1.0",
+    "publisher": "tomastvrdy",
+    "engines": {
+        "vscode": "^1.5.0"
     },
-    "commands": [
-      {
-        "command": "extension.downloadFile",
-        "title": "Pull file from NetSuite"
-      },
-      {
-        "command": "extension.previewFile",
-        "title": "Compare file with NetSuite"
-      },
-      {
-        "command": "extension.uploadFile",
-        "title": "Push file to NetSuite"
-      },
-      {
-        "command": "extension.deleteFile",
-        "title": "Delete file in NetSuite"
-      },
-      {
-        "command": "extension.downloadFolder",
-        "title": "Pull folder from NetSuite"
-      }
+    "categories": [
+        "Other"
     ],
-    "menus": {
-      "explorer/context": [
-        {
-          "when": "resourceLangId",
-          "command": "extension.downloadFile",
-          "group": "netsuite"
+    "activationEvents": [
+        "onCommand:extension.downloadFile",
+        "onCommand:extension.uploadFile",
+        "onCommand:extension.deleteFile",
+        "onCommand:extension.previewFile",
+        "onCommand:extension.downloadFolder"
+    ],
+    "main": "./extension",
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "NetSuite Connection Configuration",
+            "properties": {
+                "netSuiteUpload.authentication": {
+                    "type": "string",
+                    "description": "Authentication header"
+                },
+                "netSuiteUpload.restlet": {
+                    "type": "string",
+                    "description": "Restlet URL"
+                },
+                "netSuiteUpload.tempFolder": {
+                    "type": "string",
+                    "description": "Temporary folder (e.g. C:\\temp)"
+                }
+            }
         },
-        {
-          "when": "resourceLangId",
-          "command": "extension.previewFile",
-          "group": "netsuite"
-        },
-        {
-          "when": "resourceLangId",
-          "command": "extension.uploadFile",
-          "group": "netsuite"
-        },
-        {
-          "when": "resourceLangId",
-          "command": "extension.deleteFile",
-          "group": "netsuite"
-        },
-        {
-          "when": "!resourceLangId",
-          "command": "extension.downloadFolder",
-          "group": "netsuite"
+        "commands": [
+            {
+                "command": "extension.downloadFile",
+                "title": "Pull file from NetSuite"
+            },
+            {
+                "command": "extension.previewFile",
+                "title": "Compare file with NetSuite"
+            },
+            {
+                "command": "extension.uploadFile",
+                "title": "Push file to NetSuite"
+            },
+            {
+                "command": "extension.deleteFile",
+                "title": "Delete file in NetSuite"
+            },
+            {
+                "command": "extension.downloadFolder",
+                "title": "Pull folder from NetSuite"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "resourceLangId",
+                    "command": "extension.downloadFile",
+                    "group": "netsuite"
+                },
+                {
+                    "when": "resourceLangId",
+                    "command": "extension.previewFile",
+                    "group": "netsuite"
+                },
+                {
+                    "when": "resourceLangId",
+                    "command": "extension.uploadFile",
+                    "group": "netsuite"
+                },
+                {
+                    "when": "resourceLangId",
+                    "command": "extension.deleteFile",
+                    "group": "netsuite"
+                },
+                {
+                    "when": "!resourceLangId",
+                    "command": "extension.downloadFolder",
+                    "group": "netsuite"
+                }
+            ]
         }
-      ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "devDependencies": {
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0",
+        "mocha": "^2.3.3",
+        "eslint": "^3.6.0",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
+    },
+    "dependencies": {
+        "node-rest-client": "^2.0.1"
     }
-  },
-  "scripts": {
-    "postinstall": "node ./node_modules/vscode/bin/install"
-  },
-  "devDependencies": {
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0",
-    "mocha": "^2.3.3",
-    "eslint": "^3.6.0",
-    "@types/node": "^6.0.40",
-    "@types/mocha": "^2.2.32"
-  },
-  "dependencies": {
-    "node-rest-client": "^2.0.1"
-  }
 }
