@@ -1,7 +1,7 @@
 {
     "name": "netsuite-upload",
     "displayName": "NetSuite Upload",
-    "description": "NetSuite Upload Extension",
+    "description": "NetSuite Upload Extension used for managing of SuiteScript files",
     "version": "0.1.0",
     "publisher": "tomastvrdy",
     "engines": {
@@ -9,6 +9,16 @@
     },
     "categories": [
         "Other"
+    ],
+    "homepage": "https://github.com/tvrdytom/netsuite-upload",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tvrdytom/netsuite-upload"
+    },
+    "icon": "img/icon.png",
+    "keywords": [
+        "netsuite",
+        "netsuite-upload"
     ],
     "activationEvents": [
         "onCommand:extension.downloadFile",
