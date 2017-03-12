@@ -4,7 +4,7 @@ let netSuiteBl = require('./bl/netSuiteBl');
 function activate(context) {
     console.log('Extension "netsuite-upload" is now active!');
 
-    let downloadFileDisposable = vscode.commands.registerCommand('extension.downloadFile', (file) => {
+    let downloadFileDisposable = vscode.commands.registerCommand('netsuite-upload.downloadFile', (file) => {
         // Root SuiteScript folder has to be opened 
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
@@ -15,7 +15,7 @@ function activate(context) {
     });
     context.subscriptions.push(downloadFileDisposable);
 
-    let previewFileDisposable = vscode.commands.registerCommand('extension.previewFile', (file) => {
+    let previewFileDisposable = vscode.commands.registerCommand('netsuite-upload.previewFile', (file) => {
         // Root SuiteScript folder has to be opened 
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
@@ -26,7 +26,7 @@ function activate(context) {
     });
     context.subscriptions.push(previewFileDisposable);
 
-    let uploadFileDisposable = vscode.commands.registerCommand('extension.uploadFile', (file) => {
+    let uploadFileDisposable = vscode.commands.registerCommand('netsuite-upload.uploadFile', (file) => {
         // Root SuiteScript folder has to be opened 
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
@@ -37,7 +37,7 @@ function activate(context) {
     });    
     context.subscriptions.push(uploadFileDisposable);
 
-    let deleteFileDisposable = vscode.commands.registerCommand('extension.deleteFile', (file) => {
+    let deleteFileDisposable = vscode.commands.registerCommand('netsuite-upload.deleteFile', (file) => {
         // Root SuiteScript folder has to be opened 
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');
@@ -48,7 +48,7 @@ function activate(context) {
     });    
     context.subscriptions.push(deleteFileDisposable);
 
-    let downloadFolderDisposable = vscode.commands.registerCommand('extension.downloadFolder', (directory) => {
+    let downloadFolderDisposable = vscode.commands.registerCommand('netsuite-upload.downloadFolder', (directory) => {
         // Root SuiteScript folder has to be opened 
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage('No project is opened. Please open root folder. (SuiteScripts)');

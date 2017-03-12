@@ -2,27 +2,20 @@
  * @NApiVersion 2.x
  * @NScriptType Restlet
  */
-define(['N/file', 'N/search'], function (file, search) {
+define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     
     function getFolderId(folderPath) {
         var foldersArray = folderPath.split('/');
         var folderName = foldersArray[foldersArray.length-1];
-        
         var filters = [];
-        filters.push({
-            name: 'name',
-            operator: 'is',
-            values: [folderName]
-        });
-        if (foldersArray.length > 1) {
-            var parentFolderArray = foldersArray.slice(-1);
-            var parentString = parentFolderArray.join(' : ');
+        
+        filters.push({ name: 'name', operator: 'is', values: [folderName] });
+        if (foldersArray.length == 1) filters.push({ name: 'istoplevel', operator: 'is', values: true });
 
-            filters.push({
-                name: 'parent',
-                operator: 'is',
-                values: [parentString]
-            }); 
+        if (foldersArray.length > 1) {
+            var parentFolderArray = foldersArray.slice(0, -1);
+            var parentId = getFolderId(parentFolderArray.join('/'));
+            filters.push({ name: 'parent', operator: 'anyof', values: [parentId] }); 
         }
         
         var folderSearch = search.create({
@@ -37,6 +30,42 @@ define(['N/file', 'N/search'], function (file, search) {
         });
 
         return folderId;   
+    }
+
+    function createFolderIfNotExist(folderPath, parentId) {
+        var folderArray = folderPath.split('/');
+        var firstFolder = folderArray[0];
+        var nextFolders = folderArray.slice(1);
+        var filters = [];
+
+        filters.push({ name: 'name', operator: 'is', values: [firstFolder] });
+        if (parentId) {
+            filters.push({ name: 'parent', operator: 'anyof', values: [parentId] });
+        } else {
+            filters.push({ name: 'istoplevel', operator: 'is', values: true });
+        }
+
+        var folderSearch = search.create({
+            type: search.Type.FOLDER,
+            filters: filters
+        });
+
+        var folderId = null;
+        folderSearch.run().each(function(result) {
+            folderId = result.id;
+            return false;
+        });
+
+        if (!folderId) {
+            var folderRecord = record.create({ type: record.Type.FOLDER });
+            folderRecord.setValue({ fieldId: 'name', value: firstFolder });
+            folderRecord.setValue({ fieldId: 'parent', value: parentId });
+            folderId = folderRecord.save();
+        }
+
+        if (!nextFolders || nextFolders.length == 0) return folderId;
+
+        return createFolderIfNotExist(nextFolders.join('/'), folderId);
     }
 
     function getInnerFolders(folderPath, folderId) {
@@ -142,7 +171,7 @@ define(['N/file', 'N/search'], function (file, search) {
         var pathArray = filePath.split('/');
         var name = pathArray[pathArray.length-1];
         var type = getFileType(name);
-        var folder = getFolderId(filePath.substring(0, filePath.lastIndexOf('/')));
+        var folder = createFolderIfNotExist(filePath.substring(0, filePath.lastIndexOf('/')));
 
         var fileObj = file.create({
             name: name,

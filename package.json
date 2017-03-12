@@ -2,7 +2,7 @@
     "name": "netsuite-upload",
     "displayName": "NetSuite Upload",
     "description": "NetSuite Upload Extension used for managing of SuiteScript files",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "publisher": "tomastvrdy",
     "engines": {
         "vscode": "^1.5.0"
@@ -21,11 +21,11 @@
         "netsuite-upload"
     ],
     "activationEvents": [
-        "onCommand:extension.downloadFile",
-        "onCommand:extension.uploadFile",
-        "onCommand:extension.deleteFile",
-        "onCommand:extension.previewFile",
-        "onCommand:extension.downloadFolder"
+        "onCommand:netsuite-upload.downloadFile",
+        "onCommand:netsuite-upload.uploadFile",
+        "onCommand:netsuite-upload.deleteFile",
+        "onCommand:netsuite-upload.previewFile",
+        "onCommand:netsuite-upload.downloadFolder"
     ],
     "main": "./extension",
     "contributes": {
@@ -49,23 +49,23 @@
         },
         "commands": [
             {
-                "command": "extension.downloadFile",
+                "command": "netsuite-upload.downloadFile",
                 "title": "Pull file from NetSuite"
             },
             {
-                "command": "extension.previewFile",
+                "command": "netsuite-upload.previewFile",
                 "title": "Compare file with NetSuite"
             },
             {
-                "command": "extension.uploadFile",
+                "command": "netsuite-upload.uploadFile",
                 "title": "Push file to NetSuite"
             },
             {
-                "command": "extension.deleteFile",
+                "command": "netsuite-upload.deleteFile",
                 "title": "Delete file in NetSuite"
             },
             {
-                "command": "extension.downloadFolder",
+                "command": "netsuite-upload.downloadFolder",
                 "title": "Pull folder from NetSuite"
             }
         ],
@@ -73,31 +73,37 @@
             "explorer/context": [
                 {
                     "when": "resourceLangId",
-                    "command": "extension.downloadFile",
+                    "command": "netsuite-upload.downloadFile",
                     "group": "netsuite"
                 },
                 {
                     "when": "resourceLangId",
-                    "command": "extension.previewFile",
+                    "command": "netsuite-upload.previewFile",
                     "group": "netsuite"
                 },
                 {
                     "when": "resourceLangId",
-                    "command": "extension.uploadFile",
+                    "command": "netsuite-upload.uploadFile",
                     "group": "netsuite"
                 },
                 {
                     "when": "resourceLangId",
-                    "command": "extension.deleteFile",
+                    "command": "netsuite-upload.deleteFile",
                     "group": "netsuite"
                 },
                 {
                     "when": "!resourceLangId",
-                    "command": "extension.downloadFolder",
+                    "command": "netsuite-upload.downloadFolder",
                     "group": "netsuite"
                 }
             ]
-        }
+        },
+        "keybindings": [
+            {
+                "command": "netsuite-upload.downLoadFile",
+                "key": "ctrl+n ctrl+d"
+            }
+        ]
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install"
