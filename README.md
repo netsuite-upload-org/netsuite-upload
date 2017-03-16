@@ -11,17 +11,19 @@ Right-click the file/folder in the navigation panel to see the options:
 - `Push file to NetSuite` - uploads file to NetSuite
 - `Delete file in NetSuite` - deletes file in NetSuite
 - `Compare file with NetSuite` - compares your local version with the NetSuite one
+
 ##### Folders:
 - `Pull folder from NetSuite` - Download the folder content from NetSuite
 
 ## Extension Settings
 
 ##### NetSuite setup
-- Upload `netSuiteRestlet/vscodeExtensionRestlet.js` file somewhere in the `SuiteScripts` folder in NetSuite.
+- Upload `netSuiteRestlet/vscodeExtensionRestlet.js` file somewhere in the `SuiteScripts` folder in NetSuite
 - Create and deploy RESTlet using the file. (RESTlet URL will be set in the `settings.json`)
 
 ##### VSCode project setup
-- Open your local root **SuiteScripts** folder in VSCode. If not yet created, create one or update the project `settings.json` inside the `.vscode` folder.
+- Open your local root **SuiteScripts** folder in VSCode
+- If not yet created, create one or update the project `settings.json` inside the `.vscode` folder
 - Copy the following code to `settings.json` and update with your settings
 
 **settings.json**
@@ -37,3 +39,6 @@ Right-click the file/folder in the navigation panel to see the options:
 	"netSuiteUpload.tempFolder": "<TEMP FOLDER PATH>"
 }
 ```
+
+## Limitation
+The plugin is using RESTlet for the communication with the NetSuite which is having some governance limitation. Current implementation does not deal with this problem, so there could be a problem to pull folders containing a lot of items from NetSuite.
