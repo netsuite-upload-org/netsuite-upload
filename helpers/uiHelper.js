@@ -17,4 +17,9 @@ function askForCustomDependency() {
         })
 }
 
+function showListOfNetSuiteDependecies(list) {
+    return vscode.window.showQuickPick(list);
+}
+
 exports.askForCustomDependency = askForCustomDependency;
+exports.showListOfNetSuiteDependecies = showListOfNetSuiteDependecies;

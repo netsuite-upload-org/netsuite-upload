@@ -97,6 +97,17 @@ function activate(context) {
         netSuiteBl.addCustomDependencyToActiveFile(editor);
     });
     context.subscriptions.push(addCustomDependencyDisposable);
+
+    let addNSDependencyDisposable = vscode.commands.registerCommand('netsuite-upload.addNSDependency', () => {
+        let editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No file is opened.');
+            return;
+        }
+        
+        netSuiteBl.addNetSuiteDependencyToActiveFile(editor);
+    });
+    context.subscriptions.push(addNSDependencyDisposable);
 }
 exports.activate = activate;
 

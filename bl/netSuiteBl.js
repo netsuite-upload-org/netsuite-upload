@@ -4,6 +4,8 @@ let path = require('path');
 let nsRestClient = require('../helpers/netSuiteRestClient');
 let codeChangeHelper = require('../helpers/codeChangeHelper');
 let uiHelper = require('../helpers/uiHelper');
+let netsuiteList = require('../helpers/netsuiteList');
+let _ = require('underscore');
 
 function hasError(data, message) {
     if (data.error) {
@@ -96,25 +98,39 @@ function createDirectoryIfNotExist(filePath) {
 function addCustomDependencyToActiveFile(editor) {
     uiHelper.askForCustomDependency()
         .then(values => {
-            let docContent = editor.document.getText();
-            let coords = codeChangeHelper.getCoords(docContent);
-            let oldParamsString = docContent.substring(coords.depParam.range[0], coords.depParam.range[1]);
-            
-            let newParamsString = codeChangeHelper.getUpdatedFunctionParams(values.depParam, oldParamsString);
-            let newPathArrayString = codeChangeHelper.getUpdatedDepPath(values.depPath, 
-                coords.depPath ? docContent.substring(coords.depPath.range[0], coords.depPath.range[1]) : null);
-
-            if (coords.depPath) {
-                codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
-                    coords.depParam.end.row - 1, coords.depParam.end.col, newParamsString);
-
-                codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col, 
-                    coords.depPath.end.row - 1, coords.depPath.end.col, newPathArrayString);
-            } else { // Path array not defined
-                codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
-                    coords.depParam.end.row - 1, coords.depParam.end.col, newPathArrayString + ', ' + newParamsString);
-            }
+            addDependency(editor, values.depPath, values.depParam);            
         })
+}
+
+function addNetSuiteDependencyToActiveFile(editor) {
+    let netsuiteLibs = netsuiteList.getSuiteScriptDependecies();
+
+    uiHelper.showListOfNetSuiteDependecies(_.pluck(netsuiteLibs, 'path'))
+        .then(value => {
+            var depRecord = _.findWhere(netsuiteLibs, { path: value });
+            addDependency(editor, depRecord.path, depRecord.param);
+    })
+}
+
+function addDependency(editor, pathText, paramText) {
+    let docContent = editor.document.getText();
+    let coords = codeChangeHelper.getCoords(docContent);
+    let oldParamsString = docContent.substring(coords.depParam.range[0], coords.depParam.range[1]);
+    
+    let newParamsString = codeChangeHelper.getUpdatedFunctionParams(paramText, oldParamsString);
+    let newPathArrayString = codeChangeHelper.getUpdatedDepPath(pathText, 
+        coords.depPath ? docContent.substring(coords.depPath.range[0], coords.depPath.range[1]) : null);
+
+    if (coords.depPath) {
+        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
+            coords.depParam.end.row - 1, coords.depParam.end.col, newParamsString);
+
+        codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col, 
+            coords.depPath.end.row - 1, coords.depPath.end.col, newPathArrayString);
+    } else { // Path array not defined
+        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
+            coords.depParam.end.row - 1, coords.depParam.end.col, newPathArrayString + ', ' + newParamsString);
+    }
 }
 
 exports.downloadFileFromNetSuite = downloadFileFromNetSuite;
@@ -123,3 +139,4 @@ exports.downloadDirectoryFromNetSuite = downloadDirectoryFromNetSuite;
 exports.uploadFileToNetSuite = uploadFileToNetSuite;
 exports.deleteFileInNetSuite = deleteFileInNetSuite;
 exports.addCustomDependencyToActiveFile = addCustomDependencyToActiveFile;
+exports.addNetSuiteDependencyToActiveFile = addNetSuiteDependencyToActiveFile;
