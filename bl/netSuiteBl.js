@@ -1,7 +1,9 @@
 let vscode = require('vscode');
-let nsRestClient = require('../helpers/netSuiteRestClient');
 let fs = require('fs');
 let path = require('path');
+let nsRestClient = require('../helpers/netSuiteRestClient');
+let codeChangeHelper = require('../helpers/codeChangeHelper');
+let uiHelper = require('../helpers/uiHelper');
 
 function hasError(data, message) {
     if (data.error) {
@@ -63,6 +65,7 @@ function previewFileFromNetSuite(file) {
 
 function downloadDirectoryFromNetSuite(directory) {
     nsRestClient.getDirectory(directory, function(data) {
+        // TODO: fix another error messages + check other functions and fix there as well
         if (hasError(data, 'Folder does not exist in NetSuite')) return;
 
         data.forEach(function(file) {
@@ -90,8 +93,33 @@ function createDirectoryIfNotExist(filePath) {
     fs.mkdirSync(dirname);
 }
 
+function addCustomDependencyToActiveFile(editor) {
+    uiHelper.askForCustomDependency()
+        .then(values => {
+            let docContent = editor.document.getText();
+            let coords = codeChangeHelper.getCoords(docContent);
+            let oldParamsString = docContent.substring(coords.depParam.range[0], coords.depParam.range[1]);
+            
+            let newParamsString = codeChangeHelper.getUpdatedFunctionParams(values.depParam, oldParamsString);
+            let newPathArrayString = codeChangeHelper.getUpdatedDepPath(values.depPath, 
+                coords.depPath ? docContent.substring(coords.depPath.range[0], coords.depPath.range[1]) : null);
+
+            if (coords.depPath) {
+                codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
+                    coords.depParam.end.row - 1, coords.depParam.end.col, newParamsString);
+
+                codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col, 
+                    coords.depPath.end.row - 1, coords.depPath.end.col, newPathArrayString);
+            } else { // Path array not defined
+                codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
+                    coords.depParam.end.row - 1, coords.depParam.end.col, newPathArrayString + ', ' + newParamsString);
+            }
+        })
+}
+
 exports.downloadFileFromNetSuite = downloadFileFromNetSuite;
 exports.previewFileFromNetSuite = previewFileFromNetSuite;
 exports.downloadDirectoryFromNetSuite = downloadDirectoryFromNetSuite;
 exports.uploadFileToNetSuite = uploadFileToNetSuite;
 exports.deleteFileInNetSuite = deleteFileInNetSuite;
+exports.addCustomDependencyToActiveFile = addCustomDependencyToActiveFile;
