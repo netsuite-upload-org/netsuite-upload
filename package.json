@@ -120,6 +120,12 @@
         "command": "netsuite-upload.downLoadFile",
         "key": "ctrl+n ctrl+d"
       }
+    ],
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/snippets.json"
+      }
     ]
   },
   "scripts": {
