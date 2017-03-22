@@ -2,7 +2,7 @@
 
 [![Version](http://vsmarketplacebadge.apphb.com/version/tomastvrdy.netsuite-upload.svg)](https://marketplace.visualstudio.com/items?itemName=tomastvrdy.netsuite-upload)
 
-**netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE
+**netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new momdules & module dependecies
 
 ## Features
 ### 1. NetSuite File Cabinet Management
@@ -14,7 +14,7 @@ Right-click the file/folder in the navigation panel to see the options:
 - `Compare file with NetSuite` - compares your local version with the NetSuite one
 - `Pull folder from NetSuite` - Download the folder content from NetSuite
 
-### 2. Extension Settings
+### 2. Snippets & commands
 
 - `Snippets for module initialization` - type *defineRestlet...*, choose your module type and hit enter
 - `Commands for adding new NetSuite/custom dependencies` - open command line (`Ctrl`-`Shift`-`P`) and type
@@ -23,7 +23,8 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ![Snippet & commands](img/snippet_addModule.gif)  
 
-## NetSuite setup
+## Setup
+##### NetSuite setup
 - Upload `netSuiteRestlet/vscodeExtensionRestlet.js` file somewhere in the `SuiteScripts` folder in NetSuite
 - Create and deploy RESTlet using the file. (RESTlet URL will be set in the `settings.json`)
 
