@@ -14,6 +14,8 @@ Right-click the file/folder in the navigation panel to see the options:
 - `Compare file with NetSuite` - compares your local version with the NetSuite one
 - `Pull folder from NetSuite` - Download the folder content from NetSuite
 
+![Snippet & commands](img/netsuite_upload.gif)  
+
 ### 2. Snippets & commands
 
 - `Snippets for module initialization` - type *defineRestlet...*, choose your module type and hit enter
