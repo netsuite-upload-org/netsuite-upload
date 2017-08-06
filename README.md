@@ -45,7 +45,7 @@ Right-click the file/folder in the navigation panel to see the options:
 ```javascript
 {
 	// Authentication header
-  	"netSuiteUpload.authentication": "NLAuth nlauth_account=<ACCOUNTID>, nlauth_email=<LOGIN>, nlauth_signature=<PASSWORD>, nlauth_role=<ROLE>",
+	"netSuiteUpload.authentication": "NLAuth nlauth_account=<ACCOUNTID>, nlauth_email=<LOGIN>, nlauth_signature=<PASSWORD>, nlauth_role=<ROLE>",
 
 	// Restlet URL
 	"netSuiteUpload.restlet": "<RESTlet URL>",
@@ -54,19 +54,19 @@ Right-click the file/folder in the navigation panel to see the options:
 	"netSuiteUpload.tempFolder": "<TEMP FOLDER PATH>"
 
 	// Oauth Integration Key
-    "netSuiteUpload.netsuite-key": "<INTEGRATION KEY>",
+	"netSuiteUpload.netsuite-key": "<INTEGRATION KEY>",
 
-    // Oauth Integration Secret
-    "netSuiteUpload.netsuite-secret": "<INTEGRATION SECRET>",
+	// Oauth Integration Secret
+	"netSuiteUpload.netsuite-secret": "<INTEGRATION SECRET>",
 
-    // Oauth Consumer Key
-    "netSuiteUpload.consumer-token": "<CONSUMER KEY>",
+	// Oauth Consumer Key
+	"netSuiteUpload.consumer-token": "<CONSUMER KEY>",
 
-    // Oauth Consumer Secret
-    "netSuiteUpload.consumer-secret": "<CONSUMER SECRET>",
+	// Oauth Consumer Secret
+	"netSuiteUpload.consumer-secret": "<CONSUMER SECRET>",
 
-    // Account number
-    "netSuiteUpload.realm": "<ACCOUNT NUMBER>"
+	// Account number
+	"netSuiteUpload.realm": "<ACCOUNT NUMBER>"
 }
 ```
 
