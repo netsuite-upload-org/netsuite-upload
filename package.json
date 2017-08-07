@@ -49,7 +49,7 @@
         },
         "netSuiteUpload.rootDirectory": {
           "type": "string",
-          "description": "NetSuite root directory path to upload to, defaults to SuiteScript if blank"
+          "description": "NetSuite root directory path to upload to, defaults to SuiteScripts if blank"
         }
       }
     },
