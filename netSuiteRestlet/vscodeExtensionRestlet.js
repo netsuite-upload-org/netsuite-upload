@@ -190,7 +190,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function postFile(relFilePath, content) {
-        var fullFilePath =  relFilePath;
+        var fullFilePath = relFilePath;
 
         try {
             var loadedFile = file.load({
@@ -207,7 +207,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function deleteFile(relFilePath) {
-        var fullFilePath =  relFilePath;
+        var fullFilePath = relFilePath;
 
         var fileObject = file.load({ id: fullFilePath });
         file.delete({ id: fileObject.id });
