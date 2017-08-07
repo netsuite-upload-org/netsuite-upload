@@ -46,6 +46,10 @@
         "netSuiteUpload.tempFolder": {
           "type": "string",
           "description": "Temporary folder (e.g. C:\\temp)"
+        },
+        "netSuiteUpload.rootDirectory": {
+          "type": "string",
+          "description": "NetSuite root directory path to upload to, defaults to SuiteScript if blank"
         }
       }
     },
