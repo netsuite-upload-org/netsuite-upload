@@ -2,7 +2,12 @@ let vscode = require('vscode');
 let RestClient = require('node-rest-client').Client;
 
 function getRelativePath(absFilePath) {
-    return absFilePath.slice(vscode.workspace.rootPath.length);
+    var rootDirectory = vscode.workspace.getConfiguration('netSuiteUpload')['rootDirectory'];
+    if (rootDirectory) {
+        return rootDirectory + absFilePath.slice(vscode.workspace.rootPath.length);
+    } else {   
+        return 'SuiteScripts' + absFilePath.slice(vscode.workspace.rootPath.length);
+    }
 }
 
 function getFile(file, callback) {
