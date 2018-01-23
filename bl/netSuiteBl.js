@@ -19,9 +19,9 @@ function hasError(data, message) {
 function downloadFileFromNetSuite(file) {
     nsRestClient.getFile(file, function(data) {
         if (hasError(data)) return;
-        
+
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
-        
+
         fs.writeFile(file.fsPath, data[0].content.toString());
         vscode.window.showInformationMessage('File "' + relativeFileName + '" downloaded.');
     });
@@ -29,10 +29,10 @@ function downloadFileFromNetSuite(file) {
 
 function uploadFileToNetSuite(file) {
     var fileContent = fs.readFileSync(file.fsPath, 'utf8');
-    
+
     nsRestClient.postFile(file, fileContent, function(data) {
         if (hasError(data)) return;
-        
+
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
 
         vscode.window.showInformationMessage('File "' + relativeFileName + '" uploaded.');
@@ -42,7 +42,7 @@ function uploadFileToNetSuite(file) {
 function deleteFileInNetSuite(file) {
     nsRestClient.deleteFile(file, function(data) {
         if (hasError(data)) return;
-        
+
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
 
         vscode.window.showInformationMessage('File "' + relativeFileName + '" deleted.');
@@ -52,11 +52,11 @@ function deleteFileInNetSuite(file) {
 function previewFileFromNetSuite(file) {
     nsRestClient.getFile(file, function(data) {
         if (hasError(data, 'File does not exist in NetSuite')) return;
-        
+
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
         var tempFolder = vscode.workspace.getConfiguration('netSuiteUpload')['tempFolder'];
-        var filePathArray = (relativeFileName.split('.')[0] + '.preview.' + relativeFileName.split('.')[1]).split('\\');
-        var newPreviewFile = tempFolder + '\\' + filePathArray[filePathArray.length-1];
+        var filePathArray = (relativeFileName.split('.')[0] + '.preview.' + relativeFileName.split('.')[1]).split(path.sep);
+        var newPreviewFile = tempFolder + path.sep + filePathArray[filePathArray.length - 1];
 
         fs.writeFile(newPreviewFile, data[0].content.toString());
 
@@ -71,10 +71,10 @@ function downloadDirectoryFromNetSuite(directory) {
         if (hasError(data, 'Folder does not exist in NetSuite')) return;
 
         data.forEach(function(file) {
-            var fullFilePath = vscode.workspace.rootPath + file.fullPath.split('/').join('\\');
+            var fullFilePath = vscode.workspace.rootPath + file.fullPath.split('/').join(path.sep);
 
             createDirectoryIfNotExist(fullFilePath + (file.type == 'folder' ? '\\_' : ''));
-            
+
             if (file.type == 'file') {
                 fs.writeFile(fullFilePath, file.content.toString());
             }
@@ -86,7 +86,7 @@ function downloadDirectoryFromNetSuite(directory) {
 
 function createDirectoryIfNotExist(filePath) {
     var dirname = path.dirname(filePath);
-    
+
     if (fs.existsSync(dirname)) {
         return true;
     }
@@ -98,7 +98,7 @@ function createDirectoryIfNotExist(filePath) {
 function addCustomDependencyToActiveFile(editor) {
     uiHelper.askForCustomDependency()
         .then(values => {
-            addDependency(editor, values.depPath, values.depParam);            
+            addDependency(editor, values.depPath, values.depParam);
         })
 }
 
@@ -109,26 +109,26 @@ function addNetSuiteDependencyToActiveFile(editor) {
         .then(value => {
             var depRecord = _.findWhere(netsuiteLibs, { path: value });
             addDependency(editor, depRecord.path, depRecord.param);
-    })
+        })
 }
 
 function addDependency(editor, pathText, paramText) {
     let docContent = editor.document.getText();
     let coords = codeChangeHelper.getCoords(docContent);
     let oldParamsString = docContent.substring(coords.depParam.range[0], coords.depParam.range[1]);
-    
+
     let newParamsString = codeChangeHelper.getUpdatedFunctionParams(paramText, oldParamsString);
-    let newPathArrayString = codeChangeHelper.getUpdatedDepPath(pathText, 
+    let newPathArrayString = codeChangeHelper.getUpdatedDepPath(pathText,
         coords.depPath ? docContent.substring(coords.depPath.range[0], coords.depPath.range[1]) : null);
 
     if (coords.depPath) {
-        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
+        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
             coords.depParam.end.row - 1, coords.depParam.end.col, newParamsString);
 
-        codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col, 
+        codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col,
             coords.depPath.end.row - 1, coords.depPath.end.col, newPathArrayString);
     } else { // Path array not defined
-        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col, 
+        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
             coords.depParam.end.row - 1, coords.depParam.end.col, newPathArrayString + ', ' + newParamsString);
     }
 }
