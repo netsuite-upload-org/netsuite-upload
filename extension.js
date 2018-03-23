@@ -40,15 +40,20 @@ function activate(context) {
     context.subscriptions.push(previewFileDisposable);
 
     let uploadFileDisposable = vscode.commands.registerCommand('netsuite-upload.uploadFile', (file) => {
-        if (!file) {
-            vscode.window.showErrorMessage(noFileSelectedErrorMessage);
-            return;
-        }
-        
         // Root SuiteScript folder has to be opened 
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
             return;
+        }
+
+        if (!file) {
+            if (!vscode.window.activeTextEditor && !vscode.window.activeTextEditor.document.uri) {
+                vscode.window.showErrorMessage(noFileSelectedErrorMessage);
+                return;
+            }
+            else {
+                file = vscode.window.activeTextEditor.document.uri;
+            }            
         }
         
         netSuiteBl.uploadFileToNetSuite(file);        
