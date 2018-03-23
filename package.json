@@ -83,7 +83,7 @@
       {
         "command": "netsuite-upload.addNSDependency",
         "title": "Add NetSuite Dependency",
-        "category": "NSUplod"
+        "category": "NSUpload"
       }
     ],
     "menus": {
