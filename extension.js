@@ -46,7 +46,7 @@ function activate(context) {
             return;
         }
 
-        if (!file) {
+        if (!file || !Object.keys(file).length) {
             if (!vscode.window.activeTextEditor && !vscode.window.activeTextEditor.document.uri) {
                 vscode.window.showErrorMessage(noFileSelectedErrorMessage);
                 return;
