@@ -2,6 +2,7 @@
  * @NApiVersion 2.x
  * @NScriptType Restlet
  */
+
 define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getFolderId(folderPath) {
@@ -344,7 +345,8 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     function getFunc(request) {
         var type = request.type; // directory, file
 
-        var relPath = request.name.split(path.sep).join('/');
+        // Handle Windows paths if they come up from the client.
+        var relPath = request.name.split('\\').join('/');
         // TODO: fix request.name == EMPTY STRING
 
         if (type === 'file') {
@@ -356,13 +358,15 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function postFunc(request) {
-        var relPath = request.name.split(path.sep).join('/');
+        // Handle Windows paths if they come up from the client.
+        var relPath = request.name.split('\\').join('/');
 
         postFile(relPath, request.content);
     }
 
     function deleteFunc(request) {
-        var relPath = request.name.split(path.sep).join('/');
+        // Handle Windows paths if they come up from the client.
+        var relPath = request.name.split('\\').join('/');
 
         deleteFile(relPath);
     }
@@ -371,5 +375,5 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
         get: getFunc,
         post: postFunc,
         delete: deleteFunc
-    }
+    };
 });
