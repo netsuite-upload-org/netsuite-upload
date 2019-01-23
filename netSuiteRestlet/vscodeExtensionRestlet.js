@@ -224,26 +224,40 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getFileType(fileName) {
         switch (file.extname(fileName).toLowerCase()) {
-            case 'js':
-                return file.Type.JAVASCRIPT;
+            case 'appcache':
+                return file.Type.APPCACHE;
+            case 'dwg', 'dwf', 'dxf', 'dwt', 'plt':
+                return file.Type.AUTOCAD;
             case 'bmp':
                 return file.Type.BMPIMAGE;
+            case 'cer', 'crl', 'crt', 'csr', 'der', 'key', 'p10', 'p12', 'p7b', 'p7c', 'p7r', 'p8', 'pem', 'pfx', 'spc':
+                return file.Type.CERTIFICATE;
+            case 'config':
+                return file.Type.CONFIG;
             case 'csv':
                 return file.Type.CSV;
             case 'xls', 'xlsx':
                 return file.Type.EXCEL;
+            case 'swf':
+                return file.Type.FLASH;
+            case 'ftl':
+                return file.Type.FREEMARKER;
             case 'gif':
                 return file.Type.GIFIMAGE;
             case 'gz':
                 return file.Type.GZIP;
-            case 'htm', 'html':
+            case 'htm', 'html', 'shtml':
                 return file.Type.HTMLDOC;
-            case 'ico':
+            case 'ico', 'icon':
                 return file.Type.ICON;
+            case 'js':
+                return file.Type.JAVASCRIPT;
             case 'jpg', 'jpeg':
                 return file.Type.JPGIMAGE;
             case 'json':
                 return file.Type.JSON;
+            case 'eml':
+                return file.Type.MESSAGERFC;
             case 'mp3':
                 return file.Type.MP3;
             case 'mpg', 'mpeg':
@@ -252,11 +266,13 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
                 return file.Type.MSPROJECT;
             case 'pdf':
                 return file.Type.PDF;
-            case 'txt':
+            case 'pjpeg':
+                return file.Type.PJPGIMAGE;
+            case 'txt', 'prn', 'log', 'htc', 'sql':
                 return file.Type.PLAINTEXT;
             case 'png':
                 return file.Type.PNGIMAGE;
-            case 'ps':
+            case 'ps', 'eps':
                 return file.Type.POSTSCRIPT;
             case 'ppt', 'pptx':
                 return file.Type.POWERPOINT;
@@ -272,19 +288,23 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
                 return file.Type.STYLESHEET;
             case 'svg':
                 return file.Type.SVG;
-            case 'tar':
+            case 'tar', 'tgz', 'tbz':
                 return file.Type.TAR;
-            case 'tiff':
+            case 'tif','tiff':
                 return file.Type.TIFFIMAGE;
             case 'vsd', 'vsdx':
                 return file.Type.VISIO;
-            case 'doc', 'docx':
+            case 'ssp':
+                return file.Type.WEBAPPPAGE;
+            case 'ss':
+                return file.Type.WEBAPPSCRIPT;
+            case 'doc', 'docx', 'dot':
                 return file.Type.WORD;
             case 'xml':
                 return file.Type.XMLDOC;
             case 'xsd':
                 return file.Type.XSD;
-            case 'zip':
+            case 'zip', 'lzh', 'lha':
                 return file.Type.ZIP;
 
             default:
