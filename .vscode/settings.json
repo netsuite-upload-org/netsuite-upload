@@ -4,16 +4,16 @@
     "typescript.tsdk": "./node_modules/typescript/lib",
 
     // OAuth NetSuite Token ID
-    "netSuiteUpload.netsuite-key": "<INTEGRATION KEY>",
+    "netSuiteUpload.netSuiteKey": "<INTEGRATION KEY>",
 
     // OAuth NetSuite Token Secret
-    "netSuiteUpload.netsuite-secret": "<INTEGRATION SECRET>",
+    "netSuiteUpload.netSuiteSecret": "<INTEGRATION SECRET>",
 
     // OAuth NetSuite Consumer Key
-    "netSuiteUpload.consumer-token": "<CONSUMER KEY>",
+    "netSuiteUpload.consumerToken": "<CONSUMER KEY>",
 
     // OAuth NetSuite Consumer Secret
-    "netSuiteUpload.consumer-secret": "<CONSUMER SECRET>",
+    "netSuiteUpload.consumerSecret": "<CONSUMER SECRET>",
 
     // Account number
     "netSuiteUpload.realm": "<ACCOUNT NUMBER>"

@@ -11,6 +11,7 @@ let _ = require('underscore');
 
 function hasError(data, message) {
     if (data.error) {
+        
         var errorMessage = message ? message : JSON.parse(data.error.message).message;
         vscode.window.showErrorMessage(errorMessage);
         return true;
@@ -53,7 +54,7 @@ function deleteFileInNetSuite(file) {
 
 function previewFileFromNetSuite(file) {
     nsRestClient.getFile(file, function(data) {
-        if (hasError(data, 'File does not exist in NetSuite')) return;
+        if (hasError(data)) return;
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
         var tempFolder = vscode.workspace.getConfiguration('netSuiteUpload').tempFolder;

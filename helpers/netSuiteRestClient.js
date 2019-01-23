@@ -18,36 +18,38 @@ function getDirectory(directory, callback) {
 }
 
 function getHttpHeaders() {
-    var headers = {
-        "Content-Type": "application/json"
-    };
 
-    if (vscode.workspace.getConfiguration('netSuiteUpload').has('authentication'))
+    var oldAuth = vscode.workspace.getConfiguration('netSuiteUpload').authentication;
+    var newAuth = vscode.workspace.getConfiguration('netSuiteUpload').netSuiteKey;
+    if (oldAuth && oldAuth.length > 0)
     {
-        headers.Authorization = vscode.workspace.getConfiguration('netSuiteUpload').authentication;
+        return {
+            "Authorization" : vscode.workspace.getConfiguration('netSuiteUpload').authentication,
+            "Content-Type" : "application/json"
+        };
     }
-    else if (vscode.workspace.getConfiguration('netSuiteUpload').has('netsuite-key')) {
+    else if (newAuth && newAuth.length > 0 ) {
         var oauth = OAuth({
             consumer: {
-                key: vscode.workspace.getConfiguration('netSuiteUpload')['netsuite-key'],
-                secret: vscode.workspace.getConfiguration('netSuiteUpload')['netsuite-secret']
+                key: vscode.workspace.getConfiguration('netSuiteUpload').consumerToken,
+                secret: vscode.workspace.getConfiguration('netSuiteUpload').consumerSecret
             },
-            signature_method: 'HMAC-SHA1',
+            signature_method: 'HMAC-SHA256',
             hash_function: function(base_string, key) {
-                return crypto.createHmac('sha1', key).update(base_string).digest('base64');
+                return crypto.createHmac('sha256', key).update(base_string).digest('base64');
             }
         });
         var token = {
-            key: vscode.workspace.getConfiguration('netSuiteUpload')['consumer-token'],
-            secret: vscode.workspace.getConfiguration('netSuiteUpload')['consumer-secret']
+            key: vscode.workspace.getConfiguration('netSuiteUpload').netSuiteKey,
+            secret: vscode.workspace.getConfiguration('netSuiteUpload').netSuiteSecret
         };
         var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload').restlet;
-        var auth = oauth.toHeader(oauth.authorize({ url: baseRestletURL, method: 'POST' }, token));
-        auth += ', realm="' + vscode.workspace.getConfiguration('netSuiteUpload').realm + '"';
-        headers.Authorization = auth;
+        var headerWithRealm  = oauth.toHeader(oauth.authorize({ url: baseRestletURL, method: 'POST' }, token));
+        headerWithRealm.Authorization += ', realm="' + vscode.workspace.getConfiguration('netSuiteUpload').realm + '"';
+        headerWithRealm["Content-Type"] = "application/json";
+        return headerWithRealm;
     }
-
-    return headers;
+    return null;
 }
 
 function getData(type, objectPath, callback) {

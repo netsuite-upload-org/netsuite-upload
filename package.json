@@ -47,19 +47,19 @@
           "type": "string",
           "description": "Temporary folder (e.g. C:\\temp or /tmp)."
         },
-        "netSuiteUpload.netsuite-key": {
+        "netSuiteUpload.netSuiteKey": {
           "type": "string",
           "description": "OAuth NetSuite Token ID"
         },
-        "netSuiteUpload.netsuite-secret": {
+        "netSuiteUpload.netSuiteSecret": {
           "type": "string",
           "description": "OAuth NetSuite Token Secret"
         },
-        "netSuiteUpload.consumer-token": {
+        "netSuiteUpload.consumerToken": {
           "type": "string",
           "description": "OAuth NetSuite Consumer Key"
         },
-        "netSuiteUpload.consumer-secret": {
+        "netSuiteUpload.consumerSecret": {
           "type": "string",
           "description": "OAuth NetSuite Consumer Secret"
         },
