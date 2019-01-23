@@ -14,16 +14,16 @@ Right-click the file/folder in the navigation panel to see the options:
 - `Compare file with NetSuite` - compares your local version with the NetSuite one
 - `Pull folder from NetSuite` - Download the folder content from NetSuite
 
-![Snippet & commands](img/netsuite_upload.gif)  
+![Snippet & commands](img/netsuite_upload.gif)
 
 ### 2. Snippets & commands
 
 - `Snippets for module initialization` - type *defineRestlet...*, choose your module type and hit enter
 - `Commands for adding new NetSuite/custom dependencies` - open command line (`Ctrl`-`Shift`-`P`) and type
 	- *add netsuite dependency* for choosing of the NetSuite built-in module from the list
-	- *add custom dependency* for defining od custom dependecies 
+	- *add custom dependency* for defining od custom dependecies
 
-![Snippet & commands](img/snippet_addModule.gif)  
+![Snippet & commands](img/snippet_addModule.gif)
 
 ## Setup
 ##### NetSuite setup
@@ -44,7 +44,7 @@ Right-click the file/folder in the navigation panel to see the options:
 	// Restlet URL
 	"netSuiteUpload.restlet": "<RESTlet URL>",
 
-	// Temporary folder (e.g. C:\\temp) - used for storing compared file
+	// Temporary folder (e.g. C:\\temp or /tmp) - used for storing compared file
 	"netSuiteUpload.tempFolder": "<TEMP FOLDER PATH>"
 }
 ```
