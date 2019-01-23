@@ -2,18 +2,18 @@
   "name": "netsuite-upload",
   "displayName": "NetSuite Upload",
   "description": "NetSuite Upload Extension used for managing of SuiteScript files",
-  "version": "0.1.3",
-  "publisher": "tomastvrdy",
+  "version": "1.0.0",
+  "publisher": "silverl",
   "engines": {
-    "vscode": "^1.5.0"
+    "vscode": "^1.30.0"
   },
   "categories": [
     "Other"
   ],
-  "homepage": "https://github.com/tvrdytom/netsuite-upload",
+  "homepage": "https://github.com/silverl/netsuite-upload",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tvrdytom/netsuite-upload"
+    "url": "https://github.com/silverl/netsuite-upload"
   },
   "icon": "img/icon.png",
   "keywords": [
@@ -37,7 +37,7 @@
       "properties": {
         "netSuiteUpload.authentication": {
           "type": "string",
-          "description": "Authentication header"
+          "description": "Authentication header. For use with traditional NLAuth-style authentication. You may leave this unset and instead use OAuth."
         },
         "netSuiteUpload.restlet": {
           "type": "string",
@@ -45,12 +45,31 @@
         },
         "netSuiteUpload.tempFolder": {
           "type": "string",
-          "description": "Temporary folder (e.g. C:\\temp)"
+          "description": "Temporary folder (e.g. C:\\temp or /tmp)."
+        },
+        "netSuiteUpload.netsuite-key": {
+          "type": "string",
+          "description": "OAuth NetSuite Token ID"
+        },
+        "netSuiteUpload.netsuite-secret": {
+          "type": "string",
+          "description": "OAuth NetSuite Token Secret"
+        },
+        "netSuiteUpload.consumer-token": {
+          "type": "string",
+          "description": "OAuth NetSuite Consumer Key"
+        },
+        "netSuiteUpload.consumer-secret": {
+          "type": "string",
+          "description": "OAuth NetSuite Consumer Secret"
+        },
+        "netSuiteUpload.realm": {
+          "type": "string",
+          "description": "OAuth Netsuite account number (aka realm)"
         }
       }
     },
-    "commands": [
-      {
+    "commands": [{
         "command": "netsuite-upload.downloadFile",
         "title": "Pull file from NetSuite",
         "category": "NSUpload"
@@ -87,8 +106,7 @@
       }
     ],
     "menus": {
-      "explorer/context": [
-        {
+      "explorer/context": [{
           "when": "resourceLangId",
           "command": "netsuite-upload.downloadFile",
           "group": "netsuite"
@@ -115,18 +133,14 @@
         }
       ]
     },
-    "keybindings": [
-      {
-        "command": "netsuite-upload.downLoadFile",
-        "key": "ctrl+n ctrl+d"
-      }
-    ],
-    "snippets": [
-      {
-        "language": "javascript",
-        "path": "./snippets/snippets.json"
-      }
-    ]
+    "keybindings": [{
+      "command": "netsuite-upload.downLoadFile",
+      "key": "ctrl+n ctrl+d"
+    }],
+    "snippets": [{
+      "language": "javascript",
+      "path": "./snippets/snippets.json"
+    }]
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install"

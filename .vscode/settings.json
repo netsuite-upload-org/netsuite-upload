@@ -1,4 +1,20 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "typescript.tsdk": "./node_modules/typescript/lib" // we want to use the TS server from our node_modules folder to control its version
+    // we want to use the TS server from our node_modules folder to control its version
+    "typescript.tsdk": "./node_modules/typescript/lib",
+
+    // OAuth NetSuite Token ID
+    "netSuiteUpload.netsuite-key": "<INTEGRATION KEY>",
+
+    // OAuth NetSuite Token Secret
+    "netSuiteUpload.netsuite-secret": "<INTEGRATION SECRET>",
+
+    // OAuth NetSuite Consumer Key
+    "netSuiteUpload.consumer-token": "<CONSUMER KEY>",
+
+    // OAuth NetSuite Consumer Secret
+    "netSuiteUpload.consumer-secret": "<CONSUMER SECRET>",
+
+    // Account number
+    "netSuiteUpload.realm": "<ACCOUNT NUMBER>"
 }
