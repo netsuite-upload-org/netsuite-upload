@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 let vscode = require('vscode');
 let RestClient = require('node-rest-client').Client;
 
@@ -15,11 +17,11 @@ function getDirectory(directory, callback) {
 
 function getData(type, objectPath, callback) {
     var relativeName = getRelativePath(objectPath);
-    
+
     var client = new RestClient();
     var args = {
         path: { name: relativeName },
-        headers: {                
+        headers: {
             "Content-Type": "application/json",
             "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
         }
@@ -37,10 +39,10 @@ function postFile(file, content, callback) {
 
 function postData(type, objectPath, content, callback) {
     var relativeName = getRelativePath(objectPath);
-    
+
     var client = new RestClient();
     var args = {
-        headers: {                
+        headers: {
             "Content-Type": "application/json",
             "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
         },
@@ -63,11 +65,11 @@ function deleteFile(file, callback) {
 
 function deletetData(type, objectPath, callback) {
     var relativeName = getRelativePath(objectPath);
-    
+
     var client = new RestClient();
     var args = {
         path: { name: relativeName },
-        headers: {                
+        headers: {
             "Content-Type": "application/json",
             "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
         }
