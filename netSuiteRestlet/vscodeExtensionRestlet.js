@@ -3,21 +3,21 @@
  * @NScriptType Restlet
  */
 define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
-    
+
     function getFolderId(folderPath) {
         var foldersArray = folderPath.split('/');
         var folderName = foldersArray[foldersArray.length-1];
         var filters = [];
-        
+
         filters.push({ name: 'name', operator: 'is', values: [folderName] });
         if (foldersArray.length == 1) filters.push({ name: 'istoplevel', operator: 'is', values: true });
 
         if (foldersArray.length > 1) {
             var parentFolderArray = foldersArray.slice(0, -1);
             var parentId = getFolderId(parentFolderArray.join('/'));
-            filters.push({ name: 'parent', operator: 'anyof', values: [parentId] }); 
+            filters.push({ name: 'parent', operator: 'anyof', values: [parentId] });
         }
-        
+
         var folderSearch = search.create({
             type: search.Type.FOLDER,
             filters: filters
@@ -29,7 +29,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
             return false;
         });
 
-        return folderId;   
+        return folderId;
     }
 
     function createFolderIfNotExist(folderPath, parentId) {
@@ -100,7 +100,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
                 values: [folderId]
             }]
         });
-        
+
         var files = [];
         fileSearch.run().each(function(result) {
             var fileId = result.getValue({ name: 'internalid', join: 'file' });
@@ -113,7 +113,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
                     name: fileName,
                     fullPath: folderPath + '/' + fileName,
                     content: fileContent
-                });    
+                });
             }
             return true;
         });
@@ -131,11 +131,11 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getFile(relFilePath) {
         var fullFilePath = 'SuiteScripts' + relFilePath;
-        
+
         var fileToReturn = file.load({
             id: fullFilePath
         });
-        
+
         return [{
             name: fileToReturn.name,
             fullPath: fullFilePath,
@@ -147,7 +147,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
         var folderId = getFolderId('SuiteScripts' + relDirectoryPath);
         var folders = getInnerFolders(relDirectoryPath, folderId)
         var allFiles = [];
-        
+
         folders.forEach(function(folder) {
             allFiles = allFiles.concat(getFilesInFolder(folder.path, folder.id));
         });
@@ -215,6 +215,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getFunc(request) {
         var type = request.type; // directory, file
+        
         var relPath = request.name.split('\\').join('/');
         // TODO: fix request.name == EMPTY STRING
 
@@ -228,13 +229,13 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function postFunc(request) {
         var relPath = request.name.split('\\').join('/');
-        
+
         postFile(relPath, request.content);
     }
 
     function deleteFunc(request) {
         var relPath = request.name.split('\\').join('/');
-        
+
         deleteFile(relPath);
     }
 
