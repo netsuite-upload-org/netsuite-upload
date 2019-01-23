@@ -224,7 +224,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function getFileType(fileName) {
-        switch (file.extname(fileName).toLowerCase()) {
+        switch (fileName.split('.').pop().toLowerCase()) {
             case 'appcache':
                 return file.Type.APPCACHE;
             case 'dwg', 'dwf', 'dxf', 'dwt', 'plt':
