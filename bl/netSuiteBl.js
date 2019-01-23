@@ -11,8 +11,18 @@ let _ = require('underscore');
 
 function hasError(data, message) {
     if (data.error) {
-        
-        var errorMessage = message ? message : JSON.parse(data.error.message).message;
+        var errorMessage = "";
+        if (message) {
+            errorMessage = message;
+        }
+        else {
+            try {
+                errorMessage = JSON.parse(data.error.message).message;
+            }
+            catch(ex) {
+                errorMessage = data.error.message;
+            }
+        }
         vscode.window.showErrorMessage(errorMessage);
         return true;
     }
