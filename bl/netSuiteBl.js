@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 let vscode = require('vscode');
 let fs = require('fs');
 let path = require('path');
@@ -54,8 +56,8 @@ function previewFileFromNetSuite(file) {
         if (hasError(data, 'File does not exist in NetSuite')) return;
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
-        var tempFolder = vscode.workspace.getConfiguration('netSuiteUpload')['tempFolder'];
-        var filePathArray = (relativeFileName.split('.')[0] + '.preview.' + relativeFileName.split('.')[1]).split('\\');
+        var tempFolder = vscode.workspace.getConfiguration('netSuiteUpload').tempFolder;
+        var filePathArray = (relativeFileName.split('.')[0] + '.preview.' + relativeFileName.split('.')[1]).split(path.sep);
         var newPreviewFile = path.join(tempFolder,  filePathArray[filePathArray.length-1]);
 
         fs.writeFile(newPreviewFile, data[0].content.toString());
@@ -71,9 +73,9 @@ function downloadDirectoryFromNetSuite(directory) {
         if (hasError(data, 'Folder does not exist in NetSuite')) return;
 
         data.forEach(function(file) {
-            var fullFilePath = vscode.workspace.rootPath + file.fullPath.split('/').join('\\');
+            var fullFilePath = path.join(vscode.workspace.rootPath, file.fullPath.split('/').join(path.sep));
 
-            createDirectoryIfNotExist(fullFilePath + (file.type == 'folder' ? '\\_' : ''));
+            createDirectoryIfNotExist(fullFilePath + (file.type == 'folder' ? path.sep + '_' : ''));
 
             if (file.type == 'file') {
                 fs.writeFile(fullFilePath, file.content.toString());
@@ -99,7 +101,7 @@ function addCustomDependencyToActiveFile(editor) {
     uiHelper.askForCustomDependency()
         .then(values => {
             addDependency(editor, values.depPath, values.depParam);
-        })
+        });
 }
 
 function addNetSuiteDependencyToActiveFile(editor) {
@@ -109,7 +111,7 @@ function addNetSuiteDependencyToActiveFile(editor) {
         .then(value => {
             var depRecord = _.findWhere(netsuiteLibs, { path: value });
             addDependency(editor, depRecord.path, depRecord.param);
-    })
+    });
 }
 
 function addDependency(editor, pathText, paramText) {
