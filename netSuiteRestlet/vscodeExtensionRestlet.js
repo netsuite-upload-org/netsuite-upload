@@ -6,16 +6,28 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getFolderId(folderPath) {
         var foldersArray = folderPath.split('/');
-        var folderName = foldersArray[foldersArray.length-1];
+        var folderName = foldersArray[foldersArray.length - 1];
         var filters = [];
 
-        filters.push({ name: 'name', operator: 'is', values: [folderName] });
-        if (foldersArray.length == 1) filters.push({ name: 'istoplevel', operator: 'is', values: true });
+        filters.push({
+            name: 'name',
+            operator: 'is',
+            values: [folderName]
+        });
+        if (foldersArray.length == 1) filters.push({
+            name: 'istoplevel',
+            operator: 'is',
+            values: true
+        });
 
         if (foldersArray.length > 1) {
             var parentFolderArray = foldersArray.slice(0, -1);
             var parentId = getFolderId(parentFolderArray.join('/'));
-            filters.push({ name: 'parent', operator: 'anyof', values: [parentId] });
+            filters.push({
+                name: 'parent',
+                operator: 'anyof',
+                values: [parentId]
+            });
         }
 
         var folderSearch = search.create({
@@ -24,7 +36,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
         });
 
         var folderId = null;
-        folderSearch.run().each(function(result) {
+        folderSearch.run().each(function (result) {
             folderId = result.id;
             return false;
         });
@@ -38,11 +50,23 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
         var nextFolders = folderArray.slice(1);
         var filters = [];
 
-        filters.push({ name: 'name', operator: 'is', values: [firstFolder] });
+        filters.push({
+            name: 'name',
+            operator: 'is',
+            values: [firstFolder]
+        });
         if (parentId) {
-            filters.push({ name: 'parent', operator: 'anyof', values: [parentId] });
+            filters.push({
+                name: 'parent',
+                operator: 'anyof',
+                values: [parentId]
+            });
         } else {
-            filters.push({ name: 'istoplevel', operator: 'is', values: true });
+            filters.push({
+                name: 'istoplevel',
+                operator: 'is',
+                values: true
+            });
         }
 
         var folderSearch = search.create({
@@ -51,15 +75,23 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
         });
 
         var folderId = null;
-        folderSearch.run().each(function(result) {
+        folderSearch.run().each(function (result) {
             folderId = result.id;
             return false;
         });
 
         if (!folderId) {
-            var folderRecord = record.create({ type: record.Type.FOLDER });
-            folderRecord.setValue({ fieldId: 'name', value: firstFolder });
-            folderRecord.setValue({ fieldId: 'parent', value: parentId });
+            var folderRecord = record.create({
+                type: record.Type.FOLDER
+            });
+            folderRecord.setValue({
+                fieldId: 'name',
+                value: firstFolder
+            });
+            folderRecord.setValue({
+                fieldId: 'parent',
+                value: parentId
+            });
             folderId = folderRecord.save();
         }
 
@@ -83,7 +115,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
             id: folderId,
             path: folderPath
         }];
-        folderSearch.run().each(function(result) {
+        folderSearch.run().each(function (result) {
             innerFolders = innerFolders.concat(getInnerFolders(folderPath + '/' + result.getValue('name'), result.id));
             return true;
         });
@@ -102,11 +134,19 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
         });
 
         var files = [];
-        fileSearch.run().each(function(result) {
-            var fileId = result.getValue({ name: 'internalid', join: 'file' });
+        fileSearch.run().each(function (result) {
+            var fileId = result.getValue({
+                name: 'internalid',
+                join: 'file'
+            });
             if (fileId) {
-                var fileName = result.getValue({ name: 'name', join: 'file' });
-                var fileContent = file.load({ id: fileId }).getContents();
+                var fileName = result.getValue({
+                    name: 'name',
+                    join: 'file'
+                });
+                var fileContent = file.load({
+                    id: fileId
+                }).getContents();
 
                 files.push({
                     type: 'file',
@@ -145,10 +185,10 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getDirectory(relDirectoryPath) {
         var folderId = getFolderId('SuiteScripts' + relDirectoryPath);
-        var folders = getInnerFolders(relDirectoryPath, folderId)
+        var folders = getInnerFolders(relDirectoryPath, folderId);
         var allFiles = [];
 
-        folders.forEach(function(folder) {
+        folders.forEach(function (folder) {
             allFiles = allFiles.concat(getFilesInFolder(folder.path, folder.id));
         });
         return allFiles;
@@ -169,7 +209,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function createFile(filePath, content) {
         var pathArray = filePath.split('/');
-        var name = pathArray[pathArray.length-1];
+        var name = pathArray[pathArray.length - 1];
         var type = getFileType(name);
         var folder = createFolderIfNotExist(filePath.substring(0, filePath.lastIndexOf('/')));
 
@@ -183,10 +223,74 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function getFileType(fileName) {
+        switch (file.extname(fileName).toLowerCase()) {
+            case 'js':
+                return file.Type.JAVASCRIPT;
+            case 'bmp':
+                return file.Type.BMPIMAGE;
+            case 'csv':
+                return file.Type.CSV;
+            case 'xls', 'xlsx':
+                return file.Type.EXCEL;
+            case 'gif':
+                return file.Type.GIFIMAGE;
+            case 'gz':
+                return file.Type.GZIP;
+            case 'htm', 'html':
+                return file.Type.HTMLDOC;
+            case 'ico':
+                return file.Type.ICON;
+            case 'jpg', 'jpeg':
+                return file.Type.JPGIMAGE;
+            case 'json':
+                return file.Type.JSON;
+            case 'mp3':
+                return file.Type.MP3;
+            case 'mpg', 'mpeg':
+                return file.Type.MPEGMOVIE;
+            case 'mpp', 'mpt':
+                return file.Type.MSPROJECT;
+            case 'pdf':
+                return file.Type.PDF;
+            case 'txt':
+                return file.Type.PLAINTEXT;
+            case 'png':
+                return file.Type.PNGIMAGE;
+            case 'ps':
+                return file.Type.POSTSCRIPT;
+            case 'ppt', 'pptx':
+                return file.Type.POWERPOINT;
+            case 'qt', 'mov':
+                return file.Type.QUICKTIME;
+            case 'rtf':
+                return file.Type.RTF;
+            case 'scss':
+                return file.Type.SCSS;
+            case 'sms':
+                return file.Type.SMS;
+            case 'css':
+                return file.Type.STYLESHEET;
+            case 'svg':
+                return file.Type.SVG;
+            case 'tar':
+                return file.Type.TAR;
+            case 'tiff':
+                return file.Type.TIFFIMAGE;
+            case 'vsd', 'vsdx':
+                return file.Type.VISIO;
+            case 'doc', 'docx':
+                return file.Type.WORD;
+            case 'xml':
+                return file.Type.XMLDOC;
+            case 'xsd':
+                return file.Type.XSD;
+            case 'zip':
+                return file.Type.ZIP;
 
-        // TODO: differentiate according to the file extension
-        return file.Type.JAVASCRIPT;
-
+            default:
+                // This should cause an error upon upload.
+                return 'UNKNOWN';
+        }
     }
 
     function postFile(relFilePath, content) {
@@ -197,7 +301,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
                 id: fullFilePath
             });
             updateFile(loadedFile, content);
-        } catch(e) {
+        } catch (e) {
             if (e.name == 'RCRD_DSNT_EXIST') {
                 createFile(fullFilePath, content);
             } else {
@@ -209,14 +313,18 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     function deleteFile(relFilePath) {
         var fullFilePath = 'SuiteScripts' + relFilePath;
 
-        var fileObject = file.load({ id: fullFilePath });
-        file.delete({ id: fileObject.id });
+        var fileObject = file.load({
+            id: fullFilePath
+        });
+        file.delete({
+            id: fileObject.id
+        });
     }
 
     function getFunc(request) {
         var type = request.type; // directory, file
-        
-        var relPath = request.name.split('\\').join('/');
+
+        var relPath = request.name.split(path.sep).join('/');
         // TODO: fix request.name == EMPTY STRING
 
         if (type === 'file') {
@@ -228,13 +336,13 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function postFunc(request) {
-        var relPath = request.name.split('\\').join('/');
+        var relPath = request.name.split(path.sep).join('/');
 
         postFile(relPath, request.content);
     }
 
     function deleteFunc(request) {
-        var relPath = request.name.split('\\').join('/');
+        var relPath = request.name.split(path.sep).join('/');
 
         deleteFile(relPath);
     }
