@@ -14,12 +14,10 @@ function hasError(data, message) {
         var errorMessage = "";
         if (message) {
             errorMessage = message;
-        }
-        else {
+        } else {
             try {
                 errorMessage = JSON.parse(data.error.message).message;
-            }
-            catch(ex) {
+            } catch (ex) {
                 errorMessage = data.error.message;
             }
         }
@@ -30,48 +28,71 @@ function hasError(data, message) {
 }
 
 function downloadFileFromNetSuite(file) {
-    nsRestClient.getFile(file, function(data) {
-        if (hasError(data)) return;
+    nsRestClient.getFile(file, function (err, res) {
+        if (hasNetSuiteError("ERROR downloading file", err, res)) {
+            return;
+        }
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
-
-        fs.writeFile(file.fsPath, data[0].content.toString());
-        vscode.window.showInformationMessage('File "' + relativeFileName + '" downloaded.');
+        fs.writeFile(file.fsPath, res.body[0].content);
+        vscode.window.showInformationMessage('SUCCESS! File "' + relativeFileName + '" downloaded.');
     });
 }
 
 function uploadFileToNetSuite(file) {
     var fileContent = fs.readFileSync(file.fsPath, 'utf8');
 
-    nsRestClient.postFile(file, fileContent, function(data) {
+    nsRestClient.postFile(file, fileContent, function (data) {
         if (hasError(data)) return;
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
 
-        vscode.window.showInformationMessage('File "' + relativeFileName + '" uploaded.');
+        vscode.window.showInformationMessage('SUCCESS! File "' + relativeFileName + '" uploaded.');
     });
 }
 
+function hasNetSuiteError(custommessage, err, response) {
+    if (err) {
+        console.log(err);
+        // We could have a different kind of err object depending on where the exception got thrown.
+        var msg = custommessage;
+        if (err.status && err.stack) {
+            msg += "\nStatus: " + err.status + "\nStack: " + err.stack;
+        } else if (err.statusCode && response && response.body && response.body.error) {
+            // The body of the response may contain a JSON object containing a NetSuite-specific
+            // message. We'll parse and display that in addition to the HTTP message.
+            msg += "\nNetSuite Error: " + response.body.error.code + " " + response.body.error.type + " " + response.body.error.name + " " + response.body.error.message;
+        }
+        console.log(msg);
+        vscode.window.showErrorMessage(msg);
+        return true;
+    }
+    return false;
+}
+
 function deleteFileInNetSuite(file) {
-    nsRestClient.deleteFile(file, function(data) {
-        if (hasError(data)) return;
+    nsRestClient.deleteFile(file, function (err, res) {
+        if (hasNetSuiteError("ERROR deleting file", err, res)) {
+            return;
+        }
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
-
         vscode.window.showInformationMessage('File "' + relativeFileName + '" deleted.');
     });
 }
 
 function previewFileFromNetSuite(file) {
-    nsRestClient.getFile(file, function(data) {
-        if (hasError(data)) return;
+    nsRestClient.getFile(file, function (err, res) {
+        if (hasNetSuiteError("ERROR downloading file!", err, res)) {
+            return;
+        }
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
         var tempFolder = vscode.workspace.getConfiguration('netSuiteUpload').tempFolder;
         var filePathArray = (relativeFileName.split('.')[0] + '.preview.' + relativeFileName.split('.')[1]).split(path.sep);
-        var newPreviewFile = path.join(tempFolder,  filePathArray[filePathArray.length-1]);
+        var newPreviewFile = path.join(tempFolder, filePathArray[filePathArray.length - 1]);
 
-        fs.writeFile(newPreviewFile, data[0].content.toString());
+        fs.writeFile(newPreviewFile, res.body[0].content);
 
         var nsFile = vscode.Uri.file(newPreviewFile);
         vscode.commands.executeCommand('vscode.diff', file, nsFile, 'Local <--> NetSuite');
@@ -79,21 +100,22 @@ function previewFileFromNetSuite(file) {
 }
 
 function downloadDirectoryFromNetSuite(directory) {
-    nsRestClient.getDirectory(directory, function(data) {
-        // TODO: fix another error messages + check other functions and fix there as well
-        if (hasError(data, 'Folder does not exist in NetSuite')) return;
+    nsRestClient.getDirectory(directory, function (err, res) {
+        if (hasNetSuiteError("ERROR downloading directory!", err, res)) {
+            return;
+        }
 
-        data.forEach(function(file) {
+        res.body.forEach(function (file) {
             var fullFilePath = path.join(vscode.workspace.rootPath, file.fullPath.split('/').join(path.sep));
 
             createDirectoryIfNotExist(fullFilePath + (file.type == 'folder' ? path.sep + '_' : ''));
 
             if (file.type == 'file') {
-                fs.writeFile(fullFilePath, file.content.toString());
+                fs.writeFile(fullFilePath, file.content);
             }
         });
 
-        vscode.window.showInformationMessage('Folder successfully downloaded.');
+        vscode.window.showInformationMessage('SUCCESS: Downloaded ' + res.body.length + ' file(s).');
     });
 }
 
@@ -120,9 +142,11 @@ function addNetSuiteDependencyToActiveFile(editor) {
 
     uiHelper.showListOfNetSuiteDependecies(_.pluck(netsuiteLibs, 'path'))
         .then(value => {
-            var depRecord = _.findWhere(netsuiteLibs, { path: value });
+            var depRecord = _.findWhere(netsuiteLibs, {
+                path: value
+            });
             addDependency(editor, depRecord.path, depRecord.param);
-    });
+        });
 }
 
 function addDependency(editor, pathText, paramText) {
