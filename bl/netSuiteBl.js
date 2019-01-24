@@ -9,24 +9,6 @@ let uiHelper = require('../helpers/uiHelper');
 let netsuiteList = require('../helpers/netsuiteList');
 let _ = require('underscore');
 
-function hasError(data, message) {
-    if (data.error) {
-        var errorMessage = "";
-        if (message) {
-            errorMessage = message;
-        } else {
-            try {
-                errorMessage = JSON.parse(data.error.message).message;
-            } catch (ex) {
-                errorMessage = data.error.message;
-            }
-        }
-        vscode.window.showErrorMessage(errorMessage);
-        return true;
-    }
-    return false;
-}
-
 function downloadFileFromNetSuite(file) {
     nsRestClient.getFile(file, function (err, res) {
         if (hasNetSuiteError("ERROR downloading file", err, res)) {
@@ -42,28 +24,28 @@ function downloadFileFromNetSuite(file) {
 function uploadFileToNetSuite(file) {
     var fileContent = fs.readFileSync(file.fsPath, 'utf8');
 
-    nsRestClient.postFile(file, fileContent, function (data) {
-        if (hasError(data)) return;
+    nsRestClient.postFile(file, fileContent, function (err, res) {
+        if (hasNetSuiteError("ERROR uploading file", err, res)) {
+            return;
+        }
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
-
         vscode.window.showInformationMessage('SUCCESS! File "' + relativeFileName + '" uploaded.');
     });
 }
 
 function hasNetSuiteError(custommessage, err, response) {
     if (err) {
-        console.log(err);
-        // We could have a different kind of err object depending on where the exception got thrown.
         var msg = custommessage;
         if (err.status && err.stack) {
             msg += "\nStatus: " + err.status + "\nStack: " + err.stack;
-        } else if (err.statusCode && response && response.body && response.body.error) {
+        } else if (response && response.body && response.body.error) {
             // The body of the response may contain a JSON object containing a NetSuite-specific
             // message. We'll parse and display that in addition to the HTTP message.
             msg += "\nNetSuite Error: " + response.body.error.code + " " + response.body.error.type + " " + response.body.error.name + " " + response.body.error.message;
         }
         console.log(msg);
+        console.log(err);
         vscode.window.showErrorMessage(msg);
         return true;
     }

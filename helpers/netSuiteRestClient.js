@@ -77,11 +77,9 @@ function postData(type, objectPath, content, callback) {
     superagent.post(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
         .set("Content-Type", "application/json")
         .set("Authorization", getAuthHeader())
-        .query({
-            type: type,
-            name: relativeName,
-            content: content
-        })
+        .field("type", type)
+        .field("name", relativeName)
+        .field("content", content)
         .end((err, res) => {
             callback(err, res);
         });
