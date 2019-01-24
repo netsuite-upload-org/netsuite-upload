@@ -58,7 +58,7 @@ function hasNetSuiteError(custommessage, err, response) {
                 "Stack:" + err.stack
             ];
         }
-        var errormessage = msg + items.join("  ");
+        var errormessage = msg + " " + items.join("  ");
         console.log(err);
         console.log(errormessage);
         vscode.window.showErrorMessage(errormessage);
