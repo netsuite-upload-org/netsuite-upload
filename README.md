@@ -26,10 +26,10 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ### 2. Snippets & commands
 
-- `Snippets for module initialization` - type *defineRestlet...*, choose your module type and hit enter
+- `Snippets for module initialization` - type _defineRestlet..._, choose your module type and hit enter
 - `Commands for adding new NetSuite/custom dependencies` - open command line (`Ctrl`-`Shift`-`P`) and type
-  - *add netsuite dependency* for choosing of the NetSuite built-in module from the list
-  - *add custom dependency* for defining od custom dependecies
+  - _add netsuite dependency_ for choosing of the NetSuite built-in module from the list
+  - _add custom dependency_ for defining od custom dependecies
 
 ![Snippet & commands](img/snippet_addModule.gif)
 
@@ -47,6 +47,10 @@ Right-click the file/folder in the navigation panel to see the options:
 - Copy the following code to `settings.json` and update with your settings
 
 ### OAuth Authentication
+
+I attempted to implement OAuth, but have failed. If anyone would like to help me figure out what the deal is, I'm open.
+
+To experiment with OAuth, leave the setting for `netSuiteUpload.authentication` unset or commented out.
 
 - If you wish to use OAuth authentication instead of basic authentication you can leave the authentication header blank and use the OAuth settings properties.
 - First generate an Integration record in NetSuite, make sure the 'token based authentication' scheme is checked, and save the token and secret
@@ -66,7 +70,16 @@ Right-click the file/folder in the navigation panel to see the options:
   // Temporary folder (e.g. C:\\temp or /tmp) - used for storing compared file
   "netSuiteUpload.tempFolder": "<TEMP FOLDER PATH>"
 
-  
+  // Oauth NetSuite Key or Token ID
+  "netSuiteUpload.netSuiteKey": "<NETSUITE TOKEN KEY>",
+  // Oauth NetSuite Secret
+  "netSuiteUpload.netSuiteSecret": "<NETSUITE SECRET>",
+  // Oauth NetSuite Consumer Key
+  "netSuiteUpload.consumerToken": "<CONSUMER TOKEN>",
+  // Oauth NetSuite Consumer Secret
+  "netSuiteUpload.consumerSecret": "<CONSUMER SECRET>",
+  // Account number
+  "netSuiteUpload.realm": "<NETSUITE ACCOUNT NUMBER>"
 }
 ```
 
