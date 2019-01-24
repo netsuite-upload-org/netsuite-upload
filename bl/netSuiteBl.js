@@ -37,15 +37,31 @@ function uploadFileToNetSuite(file) {
 function hasNetSuiteError(custommessage, err, response) {
     if (err) {
         var msg = custommessage;
-        if (err.status && err.stack) {
-            msg += "\nStatus: " + err.status + "\nStack: " + err.stack;
-        } else if (response && response.body && response.body.error) {
+        var items = [];
+        if (response && response.body && response.body.error) {
             // The body of the response may contain a JSON object containing a NetSuite-specific
             // message. We'll parse and display that in addition to the HTTP message.
-            msg += "\nNetSuite Error: " + response.body.error.code + " " + response.body.error.type + " " + response.body.error.name + " " + response.body.error.message;
+            var code = response.body.error.code;
+            var nsMessage = JSON.parse(response.body.error.message);
+            items = [
+                "NetSuite Error:",
+                "Code: " + code,
+                "Type: " + nsMessage.type,
+                "Name: " + nsMessage.name,
+                "Message: " + nsMessage.message,
+                "Stack: " + nsMessage.stack.toString()
+            ];
+        } else if (err.status && err.stack) {
+            items = [
+                "Other Error:",
+                "Status: " + err.status,
+                "Stack:" + err.stack
+            ];
         }
+        var errormessage = msg + items.join("  ");
         console.log(err);
-        vscode.window.showErrorMessage(msg);
+        console.log(errormessage);
+        vscode.window.showErrorMessage(errormessage);
         return true;
     }
     return false;
@@ -58,7 +74,7 @@ function deleteFileInNetSuite(file) {
         }
 
         var relativeFileName = nsRestClient.getRelativePath(file.fsPath);
-        vscode.window.showInformationMessage('File "' + relativeFileName + '" deleted.');
+        vscode.window.showInformationMessage('SUCCESS! Deleted file "' + relativeFileName + '".');
     });
 }
 
