@@ -344,9 +344,7 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
 
     function getFunc(request) {
         var type = request.type; // directory, file
-
-        // Handle Windows paths if they come up from the client.
-        var relPath = request.name.split('\\').join('/');
+        var relPath = request.name.replace(/\\/g,'/');
         // TODO: fix request.name == EMPTY STRING
 
         if (type === 'file') {
@@ -358,17 +356,15 @@ define(['N/file', 'N/search', 'N/record'], function (file, search, record) {
     }
 
     function postFunc(request) {
-        // Handle Windows paths if they come up from the client.
-        var relPath = request.name.split('\\').join('/');
-
+        var relPath = request.name.replace(/\\/g,'/');
         postFile(relPath, request.content);
+        return true;
     }
 
     function deleteFunc(request) {
-        // Handle Windows paths if they come up from the client.
-        var relPath = request.name.split('\\').join('/');
-
+        var relPath = request.name.replace(/\\/g,'/');
         deleteFile(relPath);
+        return true;
     }
 
     return {
