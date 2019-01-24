@@ -44,7 +44,6 @@ function hasNetSuiteError(custommessage, err, response) {
             // message. We'll parse and display that in addition to the HTTP message.
             msg += "\nNetSuite Error: " + response.body.error.code + " " + response.body.error.type + " " + response.body.error.name + " " + response.body.error.message;
         }
-        console.log(msg);
         console.log(err);
         vscode.window.showErrorMessage(msg);
         return true;

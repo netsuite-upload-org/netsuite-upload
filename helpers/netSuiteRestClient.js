@@ -20,6 +20,7 @@ function getDirectory(directory, callback) {
 function getAuthHeader() {
     var oldAuth = vscode.workspace.getConfiguration('netSuiteUpload').authentication;
     var newAuth = vscode.workspace.getConfiguration('netSuiteUpload').netSuiteKey;
+
     if (oldAuth && oldAuth.length > 0) {
 
         return vscode.workspace.getConfiguration('netSuiteUpload').authentication;
@@ -31,22 +32,24 @@ function getAuthHeader() {
                 key: vscode.workspace.getConfiguration('netSuiteUpload').consumerToken,
                 secret: vscode.workspace.getConfiguration('netSuiteUpload').consumerSecret
             },
-            signature_method: 'HMAC-SHA256',
+            signature_method: 'HMAC-SHA1',
+            realm: vscode.workspace.getConfiguration('netSuiteUpload').realm,
             hash_function: function (base_string, key) {
-                return crypto.createHmac('sha256', key).update(base_string).digest('base64');
+                return crypto.createHmac('sha1', key).update(base_string).digest('base64');
             }
         });
+
         var token = {
             key: vscode.workspace.getConfiguration('netSuiteUpload').netSuiteKey,
             secret: vscode.workspace.getConfiguration('netSuiteUpload').netSuiteSecret
         };
-        var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload').restlet;
-        var headerWithRealm = oauth.toHeader(oauth.authorize({
-            url: baseRestletURL,
-            method: 'POST'
+
+        var header = oauth.toHeader(oauth.authorize({
+            method: 'POST',
+            url: vscode.workspace.getConfiguration('netSuiteUpload').restlet
         }, token));
-        headerWithRealm.Authorization += ', realm="' + vscode.workspace.getConfiguration('netSuiteUpload').realm + '"';
-        return headerWithRealm.Authorization;
+
+        return header.Authorization;
     }
     return null;
 }
