@@ -1,13 +1,5 @@
 # netsuite-upload VS Code plugin
 
-This is a fork of [Tomas Tvrdy's VS Code extension](https://github.com/tvrdytom/netsuite-upload).
-
-It appears Tomas has abandoned this project as he has not been responding to Issues in Github or accepting pull requests.
-
-I had need to continue using this solution, and when it threw exceptions, I forked and fixed it for myself. It's possible I've fixed it for others as well.
-
-From here down is Tomas's README:
-
 **netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new momdules & module dependecies
 
 ## Features
