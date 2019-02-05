@@ -2,7 +2,7 @@
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/tomastvrdy.netsuite-upload.svg)](https://marketplace.visualstudio.com/items?itemName=tomastvrdy.netsuite-upload)
 
-**netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new momdules & module dependecies
+**netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new modules & module dependecies
 
 ## Features
 
@@ -45,7 +45,8 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ### Authentication
 
-#### Role / Permissions
+#### Role Permissions
+
 This extension is going to be calling a NetSuite RESTlet that will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, that user must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet.
 
 At a minimum, the Role must have the following **Setup** permissions (please let me know if I have any of these wrong):
