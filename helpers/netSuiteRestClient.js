@@ -1,5 +1,7 @@
-let vscode = require('vscode');
-let RestClient = require('node-rest-client').Client;
+const vscode = require('vscode');
+const superagent = require('superagent');
+const OAuth = require('oauth-1.0a');
+const crypto = require('crypto');
 
 function getRelativePath(absFilePath) {
     return absFilePath.slice(vscode.workspace.rootPath.length);
@@ -13,22 +15,57 @@ function getDirectory(directory, callback) {
     getData('directory', directory.fsPath, callback);
 }
 
+function getAuthHeader() {
+    var oldAuth = vscode.workspace.getConfiguration('netSuiteUpload').authentication;
+    var newAuth = vscode.workspace.getConfiguration('netSuiteUpload').netSuiteKey;
+
+    if (oldAuth && oldAuth.length > 0) {
+
+        return vscode.workspace.getConfiguration('netSuiteUpload').authentication;
+
+    } else if (newAuth && newAuth.length > 0) {
+
+        var oauth = OAuth({
+            consumer: {
+                key: vscode.workspace.getConfiguration('netSuiteUpload').consumerToken,
+                secret: vscode.workspace.getConfiguration('netSuiteUpload').consumerSecret
+            },
+            signature_method: 'HMAC-SHA1',
+            realm: vscode.workspace.getConfiguration('netSuiteUpload').realm,
+            hash_function: function (base_string, key) {
+                return crypto.createHmac('sha1', key).update(base_string).digest('base64');
+            }
+        });
+
+        var token = {
+            key: vscode.workspace.getConfiguration('netSuiteUpload').netSuiteKey,
+            secret: vscode.workspace.getConfiguration('netSuiteUpload').netSuiteSecret
+        };
+
+        var header = oauth.toHeader(oauth.authorize({
+            method: 'POST',
+            url: vscode.workspace.getConfiguration('netSuiteUpload').restlet
+        }, token));
+
+        return header.Authorization;
+    }
+    return null;
+}
+
+
 function getData(type, objectPath, callback) {
     var relativeName = getRelativePath(objectPath);
-    
-    var client = new RestClient();
-    var args = {
-        path: { name: relativeName },
-        headers: {                
-            "Content-Type": "application/json",
-            "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
-        }
-    };
 
-    var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload')['restlet'];
-    client.get(baseRestletURL + '&type=' + type + '&name=${name}', args, function (data) {
-        callback(data);
-    });
+    superagent.get(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
+        .set("Content-Type", "application/json")
+        .set("Authorization", getAuthHeader())
+        .query({
+            type: type,
+            name: relativeName
+        })
+        .end((err, res) => {
+            callback(err, res);
+        });
 }
 
 function postFile(file, content, callback) {
@@ -37,46 +74,37 @@ function postFile(file, content, callback) {
 
 function postData(type, objectPath, content, callback) {
     var relativeName = getRelativePath(objectPath);
-    
-    var client = new RestClient();
-    var args = {
-        headers: {                
-            "Content-Type": "application/json",
-            "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
-        },
-        data: {
-            type: 'file',
+
+    superagent.post(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
+        .set("Content-Type", "application/json")
+        .set("Authorization", getAuthHeader())
+        .send({
+            type: type,
             name: relativeName,
             content: content
-        }
-    };
-
-    var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload')['restlet'];
-    client.post(baseRestletURL, args, function (data) {
-        callback(data);
-    });
+        })
+        .end((err, res) => {
+            callback(err, res);
+        });
 }
 
 function deleteFile(file, callback) {
-    deletetData('file', file.fsPath, callback);
+    deleteData('file', file.fsPath, callback);
 }
 
-function deletetData(type, objectPath, callback) {
+function deleteData(type, objectPath, callback) {
     var relativeName = getRelativePath(objectPath);
-    
-    var client = new RestClient();
-    var args = {
-        path: { name: relativeName },
-        headers: {                
-            "Content-Type": "application/json",
-            "Authorization": vscode.workspace.getConfiguration('netSuiteUpload')['authentication']
-        }
-    };
 
-    var baseRestletURL = vscode.workspace.getConfiguration('netSuiteUpload')['restlet'];
-    client.delete(baseRestletURL + '&type=' + type + '&name=${name}', args, function (data) {
-        callback(data);
-    });
+    superagent.delete(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
+        .set("Content-Type", "application/json")
+        .set("Authorization", getAuthHeader())
+        .query({
+            type: type,
+            name: relativeName
+        })
+        .end((err, res) => {
+            callback(err, res);
+        });
 }
 
 exports.getRelativePath = getRelativePath;
