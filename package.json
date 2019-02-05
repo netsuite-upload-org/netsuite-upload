@@ -109,27 +109,27 @@
     "menus": {
       "explorer/context": [
         {
-          "when": "resourceLangId",
+          "when": "!explorerResourceIsFolder",
           "command": "netsuite-upload.downloadFile",
           "group": "netsuite"
         },
         {
-          "when": "resourceLangId",
+          "when": "!explorerResourceIsFolder",
           "command": "netsuite-upload.previewFile",
           "group": "netsuite"
         },
         {
-          "when": "resourceLangId",
+          "when": "!explorerResourceIsFolder",
           "command": "netsuite-upload.uploadFile",
           "group": "netsuite"
         },
         {
-          "when": "resourceLangId",
+          "when": "!explorerResourceIsFolder",
           "command": "netsuite-upload.deleteFile",
           "group": "netsuite"
         },
         {
-          "when": "!resourceLangId",
+          "when": "explorerResourceIsFolder",
           "command": "netsuite-upload.downloadFolder",
           "group": "netsuite"
         }
@@ -137,7 +137,7 @@
     },
     "keybindings": [
       {
-        "command": "netsuite-upload.downLoadFile",
+        "command": "netsuite-upload.downloadFile",
         "key": "ctrl+n ctrl+d"
       }
     ],
