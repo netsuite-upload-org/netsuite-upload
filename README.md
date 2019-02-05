@@ -42,7 +42,7 @@ Since this extension is under new leadership, I'm waiting until I get some beta 
 - Create a new Script record for this RESTlet.
 - Create a new Script Deployment for this Script. Note the URL. The RESTlet URL will be set in `settings.json`.
 
-** Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and check back here. **
+_Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and check back here._
 
 ### VSCode project setup
 
