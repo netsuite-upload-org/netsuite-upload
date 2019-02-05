@@ -77,6 +77,16 @@ To experiment with OAuth, leave the setting for `netSuiteUpload.authentication` 
 }
 ```
 
+### keybindings.json
+
+I like to add a keybinding to upload the document in the current tab.
+
+Add the following to your `keybindings.json` file:
+
+```javascript
+{ "key": "ctrl+u",                "command": "netsuite-upload.uploadFile"},
+```
+
 ## Limitation
 
 The plugin is using RESTlet for the communication with the NetSuite which is having some governance limitation. Current implementation does not deal with this problem, so there could be a problem to pull folders containing a lot of items from NetSuite.
