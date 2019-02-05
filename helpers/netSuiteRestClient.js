@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const superagent = require('superagent');
 const OAuth = require('oauth-1.0a');
 const crypto = require('crypto');
+let path = require('path');
 
 function getRelativePath(absFilePath) {
     var rootDirectory = vscode.workspace.getConfiguration('netSuiteUpload')['rootDirectory'];
