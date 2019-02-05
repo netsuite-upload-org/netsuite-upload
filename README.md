@@ -1,7 +1,5 @@
 # netsuite-upload VS Code plugin
 
-[![Version](https://vsmarketplacebadge.apphb.com/version/tomastvrdy.netsuite-upload.svg)](https://marketplace.visualstudio.com/items?itemName=tomastvrdy.netsuite-upload)
-
 **netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new modules & module dependecies
 
 ## Features
@@ -26,6 +24,15 @@ Right-click the file/folder in the navigation panel to see the options:
   - _add custom dependency_ for defining od custom dependecies
 
 ![Snippet & commands](img/snippet_addModule.gif)
+
+## Installation of 1.0.x version
+
+Since this extension is under new leadership, I'm waiting until I get some beta testing on the v1.0.X release before I update the VS Code Marketplace extension.
+
+- Uninstall Old: If you have a previous version from the Marketplace installed, uninstall it. (Command palette -> Extensions: Show Installed Extensions)
+- Uninstall `netsuite-upload`
+- Download the `netsuite-upload-1.0.0.vsix` file from the [Github Releases tab](https://github.com/netsuite-upload-org/netsuite-upload/releases)
+- In VS Code: Command palette -> Extensions: Install from VSIX
 
 ## Setup
 
