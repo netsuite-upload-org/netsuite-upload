@@ -13,12 +13,12 @@ function activate(context) {
             return;
         }
 
-        // Root SuiteScript folder has to be opened 
+        // Root SuiteScript folder has to be opened
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
             return;
         }
-        
+
         netSuiteBl.downloadFileFromNetSuite(file);
     });
     context.subscriptions.push(downloadFileDisposable);
@@ -29,18 +29,18 @@ function activate(context) {
             return;
         }
 
-        // Root SuiteScript folder has to be opened 
+        // Root SuiteScript folder has to be opened
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
             return;
         }
-        
+
         netSuiteBl.previewFileFromNetSuite(file);
     });
     context.subscriptions.push(previewFileDisposable);
 
     let uploadFileDisposable = vscode.commands.registerCommand('netsuite-upload.uploadFile', (file) => {
-        // Root SuiteScript folder has to be opened 
+        // Root SuiteScript folder has to be opened
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
             return;
@@ -53,11 +53,11 @@ function activate(context) {
             }
             else {
                 file = vscode.window.activeTextEditor.document.uri;
-            }            
+            }
         }
-        
-        netSuiteBl.uploadFileToNetSuite(file);        
-    });    
+
+        netSuiteBl.uploadFileToNetSuite(file);
+    });
     context.subscriptions.push(uploadFileDisposable);
 
     let deleteFileDisposable = vscode.commands.registerCommand('netsuite-upload.deleteFile', (file) => {
@@ -66,14 +66,14 @@ function activate(context) {
             return;
         }
 
-        // Root SuiteScript folder has to be opened 
+        // Root SuiteScript folder has to be opened
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
             return;
         }
-        
-        netSuiteBl.deleteFileInNetSuite(file);        
-    });    
+
+        netSuiteBl.deleteFileInNetSuite(file);
+    });
     context.subscriptions.push(deleteFileDisposable);
 
     let downloadFolderDisposable = vscode.commands.registerCommand('netsuite-upload.downloadFolder', (directory) => {
@@ -81,13 +81,13 @@ function activate(context) {
             vscode.window.showErrorMessage('No directory selected.');
             return;
         }
-        
-        // Root SuiteScript folder has to be opened 
+
+        // Root SuiteScript folder has to be opened
         if (!vscode.workspace.rootPath) {
             vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
             return;
         }
-        
+
         netSuiteBl.downloadDirectoryFromNetSuite(directory);
     });
     context.subscriptions.push(downloadFolderDisposable);
@@ -98,7 +98,7 @@ function activate(context) {
             vscode.window.showErrorMessage('No file is opened.');
             return;
         }
-        
+
         netSuiteBl.addCustomDependencyToActiveFile(editor);
     });
     context.subscriptions.push(addCustomDependencyDisposable);
@@ -109,7 +109,7 @@ function activate(context) {
             vscode.window.showErrorMessage('No file is opened.');
             return;
         }
-        
+
         netSuiteBl.addNetSuiteDependencyToActiveFile(editor);
     });
     context.subscriptions.push(addNSDependencyDisposable);
