@@ -66,6 +66,10 @@
         "netSuiteUpload.realm": {
           "type": "string",
           "description": "OAuth Netsuite account number (aka realm)"
+        },
+        "netSuiteUpload.rootDirectory": {
+          "type": "string",
+          "description": "NetSuite root directory path to upload to. Defaults to SuiteScripts if not set."
         }
       }
     },

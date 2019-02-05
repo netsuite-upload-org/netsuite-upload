@@ -253,7 +253,7 @@ define(['N/file', 'N/search', 'N/record', 'N/log'], function(
     }
 
     function getFile(relFilePath) {
-      var fullFilePath = 'SuiteScripts' + relFilePath;
+      var fullFilePath = relFilePath;
 
       var fileToReturn = file.load({
         id: fullFilePath
@@ -269,7 +269,7 @@ define(['N/file', 'N/search', 'N/record', 'N/log'], function(
     }
 
     function getDirectory(relDirectoryPath) {
-      var folderId = getFolderId('SuiteScripts' + relDirectoryPath);
+      var folderId = getFolderId(relDirectoryPath);
       var folders = getInnerFolders(relDirectoryPath, folderId);
       var allFiles = [];
 
@@ -322,7 +322,7 @@ define(['N/file', 'N/search', 'N/record', 'N/log'], function(
     }
 
     function postFile(relFilePath, content) {
-      var fullFilePath = 'SuiteScripts' + relFilePath;
+      var fullFilePath = relFilePath;
 
       try {
         var loadedFile = file.load({
@@ -339,7 +339,7 @@ define(['N/file', 'N/search', 'N/record', 'N/log'], function(
     }
 
     function deleteFile(relFilePath) {
-      var fullFilePath = 'SuiteScripts' + relFilePath;
+      var fullFilePath = relFilePath;
 
       var fileObject = file.load({
         id: fullFilePath

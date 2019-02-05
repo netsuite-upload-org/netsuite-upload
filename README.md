@@ -25,6 +25,10 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ![Snippet & commands](img/snippet_addModule.gif)
 
+### 3. Alternative NetSuite base directory
+
+By changing the `netSuiteUpload.rootDirectory` setting in `settings.json`, you can push and pull files and folders to/from a different base subfolder.
+
 ## Installation of 1.0.x version
 
 Since this extension is under new leadership, I'm waiting until I get some beta testing on the v1.0.X release before I update the VS Code Marketplace extension.
@@ -47,7 +51,7 @@ _Future versions of this VS Code Extension may require that you upgrade the REST
 ### VSCode project setup
 
 - Open your local root **SuiteScripts** folder in VSCode. The VS Code project root folder MUST be the same as the root of your SuiteScripts folder in NetSuite.
-- If not yet created, create one or update the project `settings.json` inside the `.vscode` folder
+- Create or update the project `settings.json` inside the `.vscode` folder (see below)
 - Copy the following code to `settings.json` and update with your settings
 
 ### Authentication
@@ -116,7 +120,11 @@ To experiment with OAuth, leave the setting for `netSuiteUpload.authentication` 
   // Oauth NetSuite Consumer Secret
   "netSuiteUpload.consumerSecret": "<CONSUMER SECRET>",
   // Account number
-  "netSuiteUpload.realm": "<NETSUITE ACCOUNT NUMBER>"
+  "netSuiteUpload.realm": "<NETSUITE ACCOUNT NUMBER>",
+
+// Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer")
+  "netSuiteUpload.rootDirectory": "<BASE FOLDER PATH>"
+
 }
 ```
 
