@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-
 const vscode = require('vscode');
 const superagent = require('superagent');
 const OAuth = require('oauth-1.0a');
