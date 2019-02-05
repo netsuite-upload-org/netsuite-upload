@@ -318,7 +318,6 @@ define(['N/file', 'N/search', 'N/record', 'N/log'], function(
       var fileType = fileMap[extension];
       if (fileType === null)
           return "UNKNOWN";
-      log.debug('getFileType', fileType);
       return fileType;
     }
 
