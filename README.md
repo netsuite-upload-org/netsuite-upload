@@ -39,11 +39,23 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ### VSCode project setup
 
-- Open your local root **SuiteScripts** folder in VSCode
+- Open your local root **SuiteScripts** folder in VSCode. The VS Code project root folder MUST be the same as the root of your SuiteScripts folder in NetSuite.
 - If not yet created, create one or update the project `settings.json` inside the `.vscode` folder
 - Copy the following code to `settings.json` and update with your settings
 
 ### Authentication
+
+#### Role / Permissions
+This extension is going to be calling a NetSuite RESTlet that will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, that user must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet.
+
+At a minimum, the Role must have the following **Setup** permissions (please let me know if I have any of these wrong):
+
+- Access Token Management - Full
+- Allow JS / HTML Uploads - Full
+- Log in using Access Tokens - Full
+- SuiteScript - Full
+- User Access Tokens - Full
+- Web Services - Full
 
 NLAuth is supported. OAuth is attempted in the code, but I couldn't make it work locally. I could use some testers.
 
