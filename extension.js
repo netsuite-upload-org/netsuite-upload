@@ -113,6 +113,11 @@ function activate(context) {
         netSuiteBl.addNetSuiteDependencyToActiveFile(editor);
     });
     context.subscriptions.push(addNSDependencyDisposable);
+
+    let getRestletVersion = vscode.commands.registerCommand('netsuite-upload.getRestletVersion', () => {
+        netSuiteBl.getRestletVersion();
+    });
+    context.subscriptions.push(getRestletVersion);
 }
 exports.activate = activate;
 

@@ -7,6 +7,15 @@ let uiHelper = require('../helpers/uiHelper');
 let netsuiteList = require('../helpers/netsuiteList');
 let _ = require('underscore');
 
+function getRestletVersion() {
+    nsRestClient.getRestletVersion(function (err, res) {
+        if (hasNetSuiteError("Could not determine the version of the RESTlet deployed to NetSuite. Are you sure you have uploaded the most recent version of the RESTlet 'vscodeExtensionRestlet.js'?", err, res)) {
+            return;
+        }
+        vscode.window.showInformationMessage('RESTlet version is ' + res.body.restletVersion);
+    });
+}
+
 function downloadFileFromNetSuite(file) {
     nsRestClient.getFile(file, function (err, res) {
         if (hasNetSuiteError("ERROR downloading file", err, res)) {
@@ -172,3 +181,4 @@ exports.uploadFileToNetSuite = uploadFileToNetSuite;
 exports.deleteFileInNetSuite = deleteFileInNetSuite;
 exports.addCustomDependencyToActiveFile = addCustomDependencyToActiveFile;
 exports.addNetSuiteDependencyToActiveFile = addNetSuiteDependencyToActiveFile;
+exports.getRestletVersion = getRestletVersion;

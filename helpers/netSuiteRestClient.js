@@ -74,6 +74,18 @@ function getData(type, objectPath, callback) {
         });
 }
 
+function getRestletVersion(callback) {
+    superagent.get(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
+        .set("Content-Type", "application/json")
+        .set("Authorization", getAuthHeader())
+        .query({
+            type: "version"
+        })
+        .end((err, res) => {
+            callback(err, res);
+        });
+}
+
 function postFile(file, content, callback) {
     postData('file', file.fsPath, content, callback);
 }
@@ -113,8 +125,10 @@ function deleteData(type, objectPath, callback) {
         });
 }
 
+
 exports.getRelativePath = getRelativePath;
 exports.getFile = getFile;
 exports.postFile = postFile;
 exports.deleteFile = deleteFile;
 exports.getDirectory = getDirectory;
+exports.getRestletVersion = getRestletVersion;

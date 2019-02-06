@@ -27,7 +27,8 @@
     "onCommand:netsuite-upload.previewFile",
     "onCommand:netsuite-upload.downloadFolder",
     "onCommand:netsuite-upload.addCustomDependency",
-    "onCommand:netsuite-upload.addNSDependency"
+    "onCommand:netsuite-upload.addNSDependency",
+    "onCommand:netsuite-upload.getRestletVersion"
   ],
   "main": "./extension",
   "contributes": {
@@ -107,6 +108,11 @@
       {
         "command": "netsuite-upload.addNSDependency",
         "title": "Add NetSuite Dependency",
+        "category": "NSUpload"
+      },
+      {
+        "command": "netsuite-upload.getRestletVersion",
+        "title": "Get version of associated NSUpload RESTlet",
         "category": "NSUpload"
       }
     ],
