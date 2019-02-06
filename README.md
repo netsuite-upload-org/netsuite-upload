@@ -2,9 +2,12 @@
 
 **netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new modules & module dependecies
 
+## Under New Management
+In February 2019, original author original author Tomáš Tvrdý transferred ownership of this project to silverl. I'm releasing an updated version 1.0.X line with many fixes. I'm looking for volunteers to help test before I publish the extension to the VS Code Extensions site. Please reach out in a new Issues item.
+
 ## Features
 
-### 1. NetSuite File Cabinet Management
+### 1. Push and Pull Files and Folders between VS Code and the NetSuite File Cabinet
 
 Right-click the file/folder in the navigation panel to see the options:
 
@@ -16,7 +19,7 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ![Snippet & commands](img/netsuite_upload.gif)
 
-### 2. Snippets & commands
+### 2. NetSuite-Specific Code Snippets & Commands
 
 - `Snippets for module initialization` - type _defineRestlet..._, choose your module type and hit enter
 - `Commands for adding new NetSuite/custom dependencies` - open command line (`Ctrl`-`Shift`-`P`) and type
@@ -25,18 +28,29 @@ Right-click the file/folder in the navigation panel to see the options:
 
 ![Snippet & commands](img/snippet_addModule.gif)
 
-### 3. Alternative NetSuite base directory
+### 3. Changeable NetSuite Base Directory
 
 By changing the `netSuiteUpload.rootDirectory` setting in `settings.json`, you can push and pull files and folders to/from a different base subfolder.
+
+## Very Important Fact!
+Your VS Code project **MUST MUST MUST** be rooted at the folder that maps to the SuiteScript NetSuite file cabinet folder. This extension assumes it is being used inside that folder. 
+
+If you look in the left pane of VS Code and your top-level folder is "SuiteScript", you've done it wrong. Instead, do a `File...Open Folder` in VS Code and choose that SuiteScript folder to open.
+
+Through Settings, you can then tell the extension to get and put files and folders beneath a *sub-folder* under SuiteScripts in the NetSuite File Cabinet. See the section on settings below.
 
 ## Installation of 1.0.x version
 
 Since this extension is under new leadership, I'm waiting until I get some beta testing on the v1.0.X release before I update the VS Code Marketplace extension.
 
+Therefore, I'm asking everyone to manually install from the Github Releases tab.
+
+The procedure:
 - Uninstall Old: If you have a previous version from the Marketplace installed, uninstall it. (Command palette -> Extensions: Show Installed Extensions)
 - Uninstall `netsuite-upload`
 - Download the `netsuite-upload-1.0.0.vsix` file from the [Github Releases tab](https://github.com/netsuite-upload-org/netsuite-upload/releases)
 - In VS Code: Command palette -> Extensions: Install from VSIX
+- Update/upgrade the vscodeExtensionRestlet.js script in NetSuite with the version contained within the .zip file from the Releases tab.
 
 ## Setup
 
