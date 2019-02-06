@@ -43,26 +43,34 @@ function uploadFileToNetSuite(file) {
 
 function hasNetSuiteError(custommessage, err, response) {
     if (err) {
+        var get = function(obj, key) {
+            return key.split(".").reduce(function(o, x) {
+                return (typeof o == "undefined" || o === null) ? o : o[x];
+            }, obj);
+        };
+
         var msg = custommessage;
         var items = [];
         if (response && response.body && response.body.error) {
             // The body of the response may contain a JSON object containing a NetSuite-specific
             // message. We'll parse and display that in addition to the HTTP message.
-            var code = response.body.error.code;
-            var nsMessage = JSON.parse(response.body.error.message);
+            //if (response.headers.)
             items = [
                 "NetSuite Error:",
-                "Code: " + code,
-                "Type: " + nsMessage.type,
-                "Name: " + nsMessage.name,
-                "Message: " + nsMessage.message,
-                "Stack: " + nsMessage.stack.toString()
+                "HTTP Status: " + get(err, 'status'),
+                "HTTP Error: " + get(err, 'message'),
+                "NS Error: " + get(response.body.error, 'code'),
+                "NS Message: " + get(response.body.error, 'message'),
+                "NS Type: " + get(response.body.error, 'message.type'),
+                "NS Name: " + get(response.body.error, 'message.name'),
+                "NS Stack: " + get(response.body.error, 'message.stack')
             ];
         } else if (err.status && err.stack) {
             items = [
                 "Other Error:",
-                "Status: " + err.status,
-                "Stack:" + err.stack
+                "HTTP Status: " + get(err, 'status'),
+                "HTTP Error: " + get(err, 'message'),
+                "HTTP Stack:" + get(err, 'stack')
             ];
         }
         var errormessage = msg + " " + items.join("  ");
