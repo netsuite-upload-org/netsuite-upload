@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Assigned a version to the RESTlet, and created a GET request that will pull down the version number of the RESTlet. This allows the extension to detect when the RESTlet version is not up-to-date, and to warn the user. There's also a new palette command, `Get NSUpload RESTlet version` which will fetch the value and display it in a notification.
 - Continued improving error handling. Now can detect bad authentication and warn the user.
 
+### Changed
+
+- This release requires that you update the RESTlet in NetSuite. Find the RESTlet at `netSuiteRestlet\vscodeExtensionRestlet.js`.
+
 ## [1.0.1] - 2019-02-05
 
 ### Added
