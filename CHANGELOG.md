@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2019-02-07
+
+### Fixed
+
+- Fixed OAuth support. NetSuite OAuth is weird.
+
+### Added
+
+- Assigned a version to the RESTlet, and created a GET request that will pull down the version number of the RESTlet. This allows the extension to detect when the RESTlet version is not up-to-date, and to warn the user. There's also a new palette command, `Get NSUpload RESTlet version` which will fetch the value and display it in a notification.
+- Continued improving error handling. Now can detect bad authentication and warn the user.
+
 ## [1.0.1] - 2019-02-05
 
 ### Added

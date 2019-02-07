@@ -1,21 +1,24 @@
 # netsuite-upload VS Code plugin
 
-**netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from the IDE & helps you with defining of new modules & module dependecies
+**netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from VS Code. It also helps you with defining new modules and adding server-side module dependecies.
 
 ## Under New Management
-In February 2019, original author original author Tomáš Tvrdý transferred ownership of this project to silverl. I'm releasing an updated version 1.0.X line with many fixes. I'm looking for volunteers to help test before I publish the extension to the VS Code Extensions site. Please reach out in a new Issues item.
+
+In February 2019, original author original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) transferred ownership of this project to me [@silver](https://github.com/silverl). The last version under this line of development was `0.1.3`.
+
+New releases will be versioned `1.0.0+`.
 
 ## Features
 
 ### 1. Push and Pull Files and Folders between VS Code and the NetSuite File Cabinet
 
-Right-click the file/folder in the navigation panel to see the options:
+Right-click a file or folder in the navigation panel to see the context menu options:
 
-- `Pull file from NetSuite` - downloads file from NetSuite
-- `Push file to NetSuite` - uploads file to NetSuite
-- `Delete file in NetSuite` - deletes file in NetSuite
-- `Compare file with NetSuite` - compares your local version with the NetSuite one
-- `Pull folder from NetSuite` - Download the folder content from NetSuite
+- `Pull file from NetSuite` - downloads a file from NetSuite
+- `Push file to NetSuite` - uploads a file to NetSuite
+- `Delete file in NetSuite` - deletes a file in NetSuite
+- `Compare file with NetSuite` - diff your local version with the NetSuite version
+- `Pull folder from NetSuite` - Download the folder and all contents from NetSuite
 
 ![Snippet & commands](img/netsuite_upload.gif)
 
@@ -32,8 +35,9 @@ Right-click the file/folder in the navigation panel to see the options:
 
 By changing the `netSuiteUpload.rootDirectory` setting in `settings.json`, you can push and pull files and folders to/from a different base subfolder.
 
-## Very Important Fact!
-Your VS Code project **MUST MUST MUST** be rooted at the folder that maps to the SuiteScript NetSuite file cabinet folder. This extension assumes it is being used inside that folder. 
+## Very Important Fact
+
+Your VS Code project **MUST MUST MUST** be rooted at the folder that maps to the SuiteScript NetSuite file cabinet folder. This extension assumes it is being used inside that folder.
 
 If you look in the left pane of VS Code and your top-level folder is "SuiteScript", you've done it wrong. Instead, do a `File...Open Folder` in VS Code and choose that SuiteScript folder to open.
 
@@ -46,6 +50,7 @@ Since this extension is under new leadership, I'm waiting until I get some beta 
 Therefore, I'm asking everyone to manually install from the Github Releases tab.
 
 The procedure:
+
 - Uninstall Old: If you have a previous version from the Marketplace installed, uninstall it. (Command palette -> Extensions: Show Installed Extensions)
 - Uninstall `netsuite-upload`
 - Download the `netsuite-upload-1.0.0.vsix` file from the [Github Releases tab](https://github.com/netsuite-upload-org/netsuite-upload/releases)
@@ -70,22 +75,11 @@ _Future versions of this VS Code Extension may require that you upgrade the REST
 
 ### Authentication
 
-#### Role Permissions
-
-This extension is going to be calling a NetSuite RESTlet that will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, that user must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet.
-
-At a minimum, the Role must have the following **Setup** permissions (please let me know if I have any of these wrong):
-
-- Access Token Management - Full
-- Allow JS / HTML Uploads - Full
-- Log in using Access Tokens - Full
-- SuiteScript - Full
-- User Access Tokens - Full
-- Web Services - Full
+This extension supports accessing the RESTlet script deployment using either NLAuth authorization or OAuth 1.0 authorization.
 
 NLAuth is supported. OAuth is attempted in the code, but I couldn't make it work locally. I could use some testers.
 
-#### For regular NLAuth
+#### Authentication Option 1: NLAuth Authorization
 
 Place the following in either Workspace settings or general User settings:
 
@@ -102,14 +96,28 @@ Place the following in either Workspace settings or general User settings:
 - PASSWORD - Your password
 - ROLE - The NetSuite RoleID for which you have web service/API permissions.
 
-#### OAuth
+#### Authentication Option 2: OAuth
 
-To experiment with OAuth, leave the setting for `netSuiteUpload.authentication` unset or commented out.
+Generating the necessary tokens for OAuth is covered in the NetSuite help site. It's not fun.
 
 - If you wish to use OAuth authentication instead of basic authentication you can leave the authentication header blank and use the OAuth settings properties.
-- First generate an Integration record in NetSuite, make sure the 'token based authentication' scheme is checked, and save the token and secret
-- Second log into a role you wish to use for authentication and from the manage tokens center generate a new token and secret using the Integration from the previous step
-- Input the 4 values from above in the corresponding settings options along with the account number in the realm property
+- First, generate an Integration record in NetSuite, make sure the 'token based authentication' scheme is checked, and hang on to the token and secret details.
+- Second, log into a role you wish to use for authentication. From the "manage tokens center", generate a new token and secret using the Integration from the previous step.
+- Input the 4 values from above (NetSuite key and token and Consumer key and token) in the corresponding settings options.
+- Set the `realm` setting equal to your numeric NetSuite account number.
+
+### Authorization - User Role Permissions
+
+This extension is going to be calling a NetSuite RESTlet that will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, the user being authenticated must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet script deployment.
+
+At a minimum, the Role must have the following **Setup** permissions (please let me know if I have any of these wrong):
+
+- Access Token Management - Full
+- Allow JS / HTML Uploads - Full
+- Log in using Access Tokens - Full
+- SuiteScript - Full
+- User Access Tokens - Full
+- Web Services - Full
 
 ### settings.json
 
@@ -136,9 +144,8 @@ To experiment with OAuth, leave the setting for `netSuiteUpload.authentication` 
   // Account number
   "netSuiteUpload.realm": "<NETSUITE ACCOUNT NUMBER>",
 
-// Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer")
+// Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer"). Default if unset is "SuiteScripts".
   "netSuiteUpload.rootDirectory": "<BASE FOLDER PATH>"
-
 }
 ```
 
@@ -154,4 +161,4 @@ Add the following to your `keybindings.json` file:
 
 ## Limitations
 
-The plugin is using RESTlet for the communication with the NetSuite which is having some governance limitation. Current implementation does not deal with this problem, so there could be a problem to pull folders containing a lot of items from NetSuite.
+The plugin is using a RESTlet for the communication with NetSuite. RESTlets have some governance limitations. Current implementation does not deal with this, so there could be problems pulling folders containing a lot of items from NetSuite.

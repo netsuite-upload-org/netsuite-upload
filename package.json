@@ -112,7 +112,7 @@
       },
       {
         "command": "netsuite-upload.getRestletVersion",
-        "title": "Get version of associated NSUpload RESTlet",
+        "title": "Get NSUpload RESTlet version",
         "category": "NSUpload"
       }
     ],
@@ -170,6 +170,7 @@
     "vscode": "1.1.27"
   },
   "dependencies": {
+    "compare-versions": "3.4.0",
     "crypto": "1.0.1",
     "esprima": "3.1.3",
     "estraverse": "4.2.0",
