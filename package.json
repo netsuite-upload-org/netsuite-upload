@@ -3,7 +3,7 @@
   "displayName": "NetSuite Upload",
   "description": "NetSuite Upload Extension used for managing of SuiteScript files",
   "version": "1.0.2",
-  "publisher": "netsuite-upload-org",
+  "publisher": "tomastvrdy",
   "engines": {
     "vscode": "^1.22.2"
   },
