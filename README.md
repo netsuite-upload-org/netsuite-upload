@@ -4,7 +4,7 @@
 
 ## Under New Management
 
-In February 2019, original author original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) transferred ownership of this project to me [@silver](https://github.com/silverl). The last version under this line of development was `0.1.3`.
+In February 2019, original author original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) transferred ownership of this project to me [@silverl](https://github.com/silverl). The last version under this line of development was `0.1.3`.
 
 New releases will be versioned `1.0.0+`.
 
