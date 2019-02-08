@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2019-02-08
+
+### Changed
+
+- Publishing to VS Code Marketplace under a new publisher name, `nsupload-org`. This will make it appear as a different extension than the old one. Going to remove the old extension from the VS Code Marketplace.
+- Added keybinding for upload. Ctrl+n,Ctrl+u.  This complements the download keybinding, Ctrl+n,Ctrl+d.
+- Improved some Settings descriptions.
+
 ## [1.0.2] - 2019-02-07
 
 ### Fixed

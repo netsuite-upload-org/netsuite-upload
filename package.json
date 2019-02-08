@@ -40,15 +40,15 @@
       "properties": {
         "netSuiteUpload.authentication": {
           "type": "string",
-          "description": "Authentication header. For use with traditional NLAuth-style authentication. You may leave this unset and instead use OAuth."
+          "description": "NLAuth-style authentication header. To use OAuth instead, leave this unset."
         },
         "netSuiteUpload.restlet": {
           "type": "string",
-          "description": "Restlet URL"
+          "description": "Restlet URL. After you deploy the vscodeExtensionRestlet.js, set this to the Script Deployment External URL."
         },
         "netSuiteUpload.tempFolder": {
           "type": "string",
-          "description": "Temporary folder (e.g. C:\\temp or /tmp)."
+          "description": "Temporary folder (e.g. C:\\temp or /tmp). Used during diff comparisons between local and remote files."
         },
         "netSuiteUpload.netSuiteKey": {
           "type": "string",
@@ -68,11 +68,11 @@
         },
         "netSuiteUpload.realm": {
           "type": "string",
-          "description": "OAuth Netsuite account number (aka realm)"
+          "description": "Your NetSuite numeric account number (used for OAuth 'realm' parameter)"
         },
         "netSuiteUpload.rootDirectory": {
           "type": "string",
-          "description": "NetSuite root directory path to upload to. Defaults to SuiteScripts if not set."
+          "description": "NetSuite File Cabinet SuiteScripts sub-folder path to upload to. Defaults to 'SuiteScripts' if not set."
         }
       }
     },
@@ -151,6 +151,10 @@
       {
         "command": "netsuite-upload.downloadFile",
         "key": "ctrl+n ctrl+d"
+      },
+      {
+        "command": "netsuite-upload.uploadFile",
+        "key": "ctrl+n ctrl+u"
       }
     ],
     "snippets": [
