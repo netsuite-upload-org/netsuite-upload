@@ -11,7 +11,7 @@ Package and publish to VS Code Marketplace.
 Minor revision:
 
 ```powershell
-vsce publish minor
+vsce publish minor|patch
 vsce package
 ```
 
