@@ -110,14 +110,12 @@ Generating the necessary tokens for OAuth is covered in the NetSuite help site. 
 
 This extension is going to be calling a NetSuite RESTlet that will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, the user being authenticated must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet script deployment.
 
-At a minimum, the Role must have the following **Setup** permissions (please let me know if I have any of these wrong):
+At a minimum, the Role must have the following permissions:
 
-- Access Token Management - Full (not sure if needed)
-- Allow JS / HTML Uploads - Full
-- Log in using Access Tokens - Full
-- SuiteScript - Full
-- User Access Tokens - Full (not sure if needed)
-- Web Services - Full
+- Setup…Log in using Access Tokens: Full
+- Setup…SuiteScript: Full
+
+If you wish to upload and download into the SuiteBundles folder by changing the `rootDirectory` setting, add the permission `Setup…SuiteBundler: Full` to your Role.
 
 ### settings.json
 
