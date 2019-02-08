@@ -33,8 +33,9 @@ Right-click a file or folder in the navigation panel to see the context menu opt
 
 ![Snippet & commands](img/snippet_addModule.gif)
 
-### 3. Re-Base the Root Folder
-You can rebase the root folder through the `netSuiteUpload.rootDirectory` setting. This might be useful if you have a folder in the NS file cabinet called `SuiteScripts\Development` where you experiment with scripts before you move them to a `SuiteScripts\Production` folder.
+### 3. Rebase the Root Folder
+
+You can set the remote destination folder in NetSuite to SuiteScripts (default) or a subfolder of SuiteScripts with the `netSuiteUpload.rootDirectory` setting. This might be useful if you have a folder in the NS file cabinet called `SuiteScripts\Development` where you experiment with scripts before you move them to a `SuiteScripts\Production` folder.
 
 In this kind of work flow, you might do development work within `SuiteScripts\Development`. When you're satisfied, you'd change Settings.json (or Workspace settings in your `.vscode\settings.json` file) to change the base to `SuiteScripts\Production`. Then you'd push up all the files you were working with.
 
@@ -46,41 +47,35 @@ This was a requested enhancement. Most people would probably be better off using
 
 Your VS Code project **MUST MUST MUST** be rooted at a folder that maps or corresponds to NetSuite's "SuiteScripts" file cabinet folder. This extension assumes the working root is equivalent to the remote "SuiteScripts" folder.
 
-## Installation of 1.0.x version
-
-Since this extension is under new leadership, I'm waiting until I get some beta testing on the v1.0.X release before I update the VS Code Marketplace extension.
-
-Therefore, I'm asking everyone to manually install from the Github Releases tab.
-
-The procedure:
-
-- Uninstall Old: If you have a previous version from the Marketplace installed, uninstall it. (Command palette -> Extensions: Show Installed Extensions)
-- Uninstall `netsuite-upload`
-- Download the `netsuite-upload-1.0.0.vsix` file from the [Github Releases tab](https://github.com/netsuite-upload-org/netsuite-upload/releases)
-- In VS Code: Command palette -> Extensions: Install from VSIX
-- Update/upgrade the vscodeExtensionRestlet.js script in NetSuite with the version contained within the .zip file from the Releases tab.
-
 ## Setup
 
-### NetSuite setup
+### NetSuite Setup
 
-- Upload `netSuiteRestlet/vscodeExtensionRestlet.js` file somewhere in the `SuiteScripts` folder in NetSuite
+To be able to push and pull folders and files to NetSuite, this extension requires the manual installation of a RESTlet in NetSuite. Through configuration settings, you will inform the extension as to the URL of the RESTlet.
+
+#### How to install the RESTlet
+
+You'll need to know how to publish a script and do a script deployment in NetSuite to make it work. Consult the NetSuite docs if this is new to you.
+
+- [Download a copy of the RESTlet from here](https://github.com/netsuite-upload-org/netsuite-upload/blob/master/netSuiteRestlet/vscodeExtensionRestlet.js) (use `Raw` view to copy/paste).
+- Upload the `vscodeExtensionRestlet.js` file to somewhere in your `SuiteScripts` file cabinet folder in NetSuite.
 - Create a new Script record for this RESTlet.
-- Create a new Script Deployment for this Script. Note the URL. The RESTlet URL will be set in `settings.json`.
+- Create a new Script Deployment for this Script. Note the URL.
+- Edit your workspace or user settings in VS Code (see Settings section below) and set the RESTlet URL.
 
-_Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and check back here._
+_Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and read the Changelog._
 
-### VSCode project setup
+### VSCode Project Setup
 
-- Open your local root **SuiteScripts** folder in VSCode. The VS Code project root folder MUST be the same as the root of your SuiteScripts folder in NetSuite.
-- Create or update the project `settings.json` inside the `.vscode` folder (see below)
-- Copy the following code to `settings.json` and update with your settings
+Please pay attention to the instructions about choosing the folder to open in VS Code.
+
+- In VS Code, open the folder that corresponds to your local copy of the **SuiteScripts** folder in VSCode. The VS Code project root folder MUST be the same as the root of your SuiteScripts folder in NetSuite.
+- You can store the necessary settings either in your global user settings for all VS Code projects, or in a project-specific Workspace settings file that can be created or found beneath `.vscode\settings.json`.
+- Configure the settings as outlined below.
 
 ### Authentication
 
-This extension supports accessing the RESTlet script deployment using either NLAuth authorization or OAuth 1.0 authorization.
-
-NLAuth is supported. OAuth is attempted in the code, but I couldn't make it work locally. I could use some testers.
+This extension can authenticate to NetSuite and access the RESTlet script using either NLAuth authorization or OAuth 1.0 authorization.
 
 #### Authentication Option 1: NLAuth Authorization
 
@@ -94,10 +89,12 @@ Place the following in either Workspace settings or general User settings:
 }
 ```
 
-- ACCOUNTID - Your NetSuite account ID number
-- LOGIN - Your email address used to log into NetSuite
-- PASSWORD - Your password
-- ROLE - The NetSuite RoleID for which you have web service/API permissions.
+Where:
+
+- ACCOUNTID is your NetSuite account ID number
+- LOGIN is your email address used to log into NetSuite
+- PASSWORD is your password (make sure you don't commit this file to source control)
+- ROLE is the numeric NetSuite RoleID for which you have web service/API permissions. You may need to go look this up in NetSuite Setup…Users/Roles…Manage Roles.
 
 #### Authentication Option 2: OAuth
 
@@ -115,27 +112,27 @@ This extension is going to be calling a NetSuite RESTlet that will be manipulati
 
 At a minimum, the Role must have the following **Setup** permissions (please let me know if I have any of these wrong):
 
-- Access Token Management - Full
+- Access Token Management - Full (not sure if needed)
 - Allow JS / HTML Uploads - Full
 - Log in using Access Tokens - Full
 - SuiteScript - Full
-- User Access Tokens - Full
+- User Access Tokens - Full (not sure if needed)
 - Web Services - Full
 
 ### settings.json
 
 ```javascript
 {
-  // Authentication header for NLAuth
+  // Authentication header for NLAuth. Leave unset or comment out if using OAuth.
   "netSuiteUpload.authentication": "NLAuth nlauth_account=<ACCOUNTID>, nlauth_email=<LOGIN>, nlauth_signature=<PASSWORD>, nlauth_role=<ROLE>",
 
   // Script Deployment URL for the deployed vscodeExtensionRestlet.js
   "netSuiteUpload.restlet": "<RESTlet URL>",
 
-  // Temporary folder (e.g. C:\\temp or /tmp) - used for storing compared files
+  // Temporary folder (e.g. C:\\temp or /tmp) - used for diffing files between local and remote.
   "netSuiteUpload.tempFolder": "<TEMP FOLDER PATH>"
 
-  // If attempting OAuth, fill out these
+  // If using OAuth, fill out these
   // Oauth NetSuite Key or Token ID
   "netSuiteUpload.netSuiteKey": "<NETSUITE TOKEN KEY>",
   // Oauth NetSuite Secret
@@ -147,16 +144,21 @@ At a minimum, the Role must have the following **Setup** permissions (please let
   // Account number
   "netSuiteUpload.realm": "<NETSUITE ACCOUNT NUMBER>",
 
-// Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer"). Default if unset is "SuiteScripts".
+  // Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer"). Default if unset is "SuiteScripts".
   "netSuiteUpload.rootDirectory": "<BASE FOLDER PATH>"
 }
 ```
 
 ### keybindings.json
 
-I like to add a keybinding to upload the document in the current tab.
+You can add keybindings for a number of operations.
 
-Add the following to your `keybindings.json` file:
+By default, two keybindings are pre-set in the Extension: upload and download.
+
+- Upload: Ctrl+n,Ctrl+u
+- Download: Ctrl+n,Ctrl+d
+
+You can remap or set new like so in your `keybindings.json` file:
 
 ```javascript
 { "key": "ctrl+u",                "command": "netsuite-upload.uploadFile"},
@@ -164,4 +166,4 @@ Add the following to your `keybindings.json` file:
 
 ## Limitations
 
-The plugin is using a RESTlet for the communication with NetSuite. RESTlets have some governance limitations. Current implementation does not deal with this, so there could be problems pulling folders containing a lot of items from NetSuite.
+The plugin is using a RESTlet for the communication with NetSuite. RESTlets have some governance limitations, meaning NetSuite may throttle API calls if they are sent too rapidly. The current implementation does not deal with this, so there could be problems pulling folders containing a lot of items from NetSuite.
