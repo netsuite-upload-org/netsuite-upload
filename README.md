@@ -4,9 +4,11 @@
 
 ## Under New Management
 
-In February 2019, original author original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) transferred ownership of this project to me [@silver](https://github.com/silverl). The last version under this line of development was `0.1.3`.
+In February 2019, original author original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) transferred ownership of this project to me [@silverl](https://github.com/silverl). The last version under this line of development was `0.1.3`.
 
-New releases will be versioned `1.0.0+`.
+New releases will be versioned `1.0+`.
+
+If you are having problems with the `1.0+` release line, then make sure you've updated the `vscodeExtensionRestlet.js` RESTlet to the latest version.
 
 ## Features
 
@@ -31,17 +33,18 @@ Right-click a file or folder in the navigation panel to see the context menu opt
 
 ![Snippet & commands](img/snippet_addModule.gif)
 
-### 3. Changeable NetSuite Base Directory
+### 3. Re-Base the Root Folder
+You can rebase the root folder through the `netSuiteUpload.rootDirectory` setting. This might be useful if you have a folder in the NS file cabinet called `SuiteScripts\Development` where you experiment with scripts before you move them to a `SuiteScripts\Production` folder.
 
-By changing the `netSuiteUpload.rootDirectory` setting in `settings.json`, you can push and pull files and folders to/from a different base subfolder.
+In this kind of work flow, you might do development work within `SuiteScripts\Development`. When you're satisfied, you'd change Settings.json (or Workspace settings in your `.vscode\settings.json` file) to change the base to `SuiteScripts\Production`. Then you'd push up all the files you were working with.
+
+Nothing changes on your local disk due to this setting change. It only modifies the root folder in NetSuite where files get pushed to or pulled from.
+
+This was a requested enhancement. Most people would probably be better off using a sandbox environment as it would be easy to lose track of which files were modified, and which versions of which files were in Development vs Production.
 
 ## Very Important Fact
 
-Your VS Code project **MUST MUST MUST** be rooted at the folder that maps to the SuiteScript NetSuite file cabinet folder. This extension assumes it is being used inside that folder.
-
-If you look in the left pane of VS Code and your top-level folder is "SuiteScript", you've done it wrong. Instead, do a `File...Open Folder` in VS Code and choose that SuiteScript folder to open.
-
-Through Settings, you can then tell the extension to get and put files and folders beneath a *sub-folder* under SuiteScripts in the NetSuite File Cabinet. See the section on settings below.
+Your VS Code project **MUST MUST MUST** be rooted at a folder that maps or corresponds to NetSuite's "SuiteScripts" file cabinet folder. This extension assumes the working root is equivalent to the remote "SuiteScripts" folder.
 
 ## Installation of 1.0.x version
 
