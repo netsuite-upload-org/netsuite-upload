@@ -83,7 +83,7 @@ function getAuthHeader(method, data) {
 
 function doesRestletNeedUpdating(needsUpdating) {
     getRestletVersion((err, res) => {
-        if (err || (compareVersions(res.body.restletVersion, vscode.extensions.getExtension('netsuite-upload-org.netsuite-upload').packageJSON.version) === -1)) {
+        if (err || (compareVersions(res.body.restletVersion, "1.0.2") === -1)) {
             needsUpdating(true, err);
         } else {
             needsUpdating(false, err);
