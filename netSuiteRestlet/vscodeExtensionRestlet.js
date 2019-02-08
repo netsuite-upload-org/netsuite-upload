@@ -364,26 +364,25 @@ define(['N/file', 'N/search', 'N/record', 'N/log', 'N/error'], function (
       return;
     }
 
-    var name = request.name;
-    if (type != 'version' && (name == null || name.length === 0)) {
-      throwError("name parameter must be set when type is 'file' or 'directory'. It is the file or directory name.");
-      return;
-    }
-
     if (type === 'version') {
       return {
         restletVersion: RESTLET_VERSION
       };
     }
-    else {
-      var relPath = request.name.replace(/\\/g, '/');
 
-      if (type === 'file') {
-        return getFile(relPath);
-      }
-      if (type === 'directory') {
-        return getDirectory(relPath);
-      }
+    var name = request.name;
+    if (name == null || name.length === 0) {
+      throwError("'name' parameter must be set when type is 'file' or 'directory'. It is the file or directory name.");
+      return;
+    }
+
+    var relPath = request.name.replace(/\\/g, '/');
+
+    if (type === 'file') {
+      return getFile(relPath);
+    }
+    if (type === 'directory') {
+      return getDirectory(relPath);
     }
   }
 
