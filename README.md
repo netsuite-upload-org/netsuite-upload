@@ -120,6 +120,7 @@ This extension is going to be calling a NetSuite RESTlet that will be manipulati
 
 At a minimum, the Role must have the following permissions:
 
+- Lists…Documents and Files: Full
 - Setup…Log in using Access Tokens: Full
 - Setup…SuiteScript: Full
 
