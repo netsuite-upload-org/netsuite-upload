@@ -45,23 +45,11 @@ Nothing changes on your local disk due to this setting change. It only modifies 
 
 This was a requested enhancement. Most people would probably be better off using a sandbox environment as it would be easy to lose track of which files were modified, and which versions of which files were in Development vs Production.
 
-## Very Important Fact
-
-Your VS Code project **MUST MUST MUST** be rooted at a folder that maps or corresponds to NetSuite's "SuiteScripts" file cabinet folder. This extension assumes the working root is equivalent to the remote "SuiteScripts" folder.
-
-## Setup
-
-### Install the VS Code Extension
-
-The extension can be installed from the VS Code Extensions Marketplace within VS Code.
-
-The Marketplace URL is https://marketplace.visualstudio.com/items?itemName=nsupload-org.netsuite-upload
-
-### NetSuite Setup
+## NetSuite Setup
 
 To be able to push and pull folders and files to NetSuite, this extension requires the manual installation of a RESTlet in NetSuite. Through configuration settings, you will inform the extension as to the URL of the RESTlet.
 
-#### How to install the RESTlet
+### How to install the RESTlet
 
 You'll need to know how to publish a script and do a script deployment in NetSuite to make it work. Consult the NetSuite docs if this is new to you.
 
@@ -71,24 +59,36 @@ You'll need to know how to publish a script and do a script deployment in NetSui
 - Create a new Script Deployment for this Script. Note the URL.
 - Edit your workspace or user settings in VS Code (see Settings section below) and set the RESTlet URL.
 
-#### Special Notes Regarding the RESTlet
+### Special Notice Regarding the RESTlet
 
 - Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and read the Changelog.
 - If you have an old version of the RESTlet in your Production NetSuite instance, and a new version in a SandBox NetSuite instance, be warned. A SandBox refresh might overwrite the SandBox RESTlet with the older version from Production.
 
-### VSCode Project Setup
+## VS Code Setup
 
-Please pay attention to the instructions about choosing the folder to open in VS Code.
+### Install the VS Code Extension
 
-- In VS Code, open the folder that corresponds to your local copy of the **SuiteScripts** folder in VSCode. The VS Code project root folder MUST be the same as the root of your SuiteScripts folder in NetSuite.
-- You can store the necessary settings either in your global user settings for all VS Code projects, or in a project-specific Workspace settings file that can be created or found beneath `.vscode\settings.json`.
-- Configure the settings as outlined below.
+The extension can be installed from the VS Code Extensions Marketplace within VS Code.
 
-### Authentication
+The Marketplace URL is https://marketplace.visualstudio.com/items?itemName=nsupload-org.netsuite-upload
+
+### VSCode - Open Folder
+
+**Very Important Fact** - Your VS Code project **MUST MUST MUST** be rooted at a folder that maps or corresponds to NetSuite's "SuiteScripts" file cabinet folder. This extension assumes the working root is equivalent to the remote "SuiteScripts" folder.
+
+In VS Code, open the folder that corresponds to your local copy of the **SuiteScripts** folder in VSCode. That folder may not be named "SuiteScripts", but it should be the folder that _corresponds_ to SuiteScripts in the NetSuite file cabiner.
+
+### VS Code Extension Settings
+
+You may manage settings for this extension either in your global user settings for all VS Code projects, or in a project-specific Workspace settings file that can be created or found beneath `.vscode\settings.json`.
+
+Keep reading for required settings relating to authentication and more.
+
+## Authentication Setup
 
 This extension can authenticate to NetSuite and access the RESTlet script using either NLAuth authorization or OAuth 1.0 authorization.
 
-#### Authentication Option 1: NLAuth Authorization
+### Authentication Option 1: NLAuth Authorization
 
 Place the following in either Workspace settings or general User settings:
 
@@ -107,7 +107,7 @@ Where:
 - PASSWORD is your password (make sure you don't commit this file to source control)
 - ROLE is the numeric NetSuite RoleID for which you have web service/API permissions. You may need to go look this up in NetSuite Setup…Users/Roles…Manage Roles.
 
-#### Authentication Option 2: OAuth
+### Authentication Option 2: OAuth
 
 Generating the necessary tokens for OAuth is covered in the NetSuite help site. It's not fun.
 
@@ -117,9 +117,9 @@ Generating the necessary tokens for OAuth is covered in the NetSuite help site. 
 - Input the 4 values from above (NetSuite key and token and Consumer key and token) in the corresponding settings options.
 - Set the `realm` setting equal to your numeric NetSuite account number.
 
-### Authorization - User Role Permissions
+## Authorization - Required Role Permissions
 
-This extension is going to be calling a NetSuite RESTlet that will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, the user being authenticated must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet script deployment.
+This extension requires the use of a NetSuite RESTlet. That RESTlet will be manipulating files and folders in the SuiteScripts folder of the File Cabinet. Therefore, the user being authenticated must have sufficient permissions assigned to their Role to allow these file changes, and to call the RESTlet script deployment.
 
 At a minimum, the Role must have the following permissions:
 
@@ -127,22 +127,31 @@ At a minimum, the Role must have the following permissions:
 - Setup…Log in using Access Tokens: Full
 - Setup…SuiteScript: Full
 
-If you wish to upload and download into the SuiteBundles folder by changing the `rootDirectory` setting, add the permission `Setup…SuiteBundler: Full` to your Role.
+If you wish to upload and download into the **SuiteBundles folder** by changing the `rootDirectory` setting, add the following permission to your Role.
 
-### settings.json
+- Setup…SuiteBundler: Full
+
+## settings.json
+
+The following demonstrates all possible settings.
 
 ```javascript
 {
-  // Authentication header for NLAuth. Leave unset or comment out if using OAuth.
-  "netSuiteUpload.authentication": "NLAuth nlauth_account=<ACCOUNTID>, nlauth_email=<LOGIN>, nlauth_signature=<PASSWORD>, nlauth_role=<ROLE>",
-
   // Script Deployment URL for the deployed vscodeExtensionRestlet.js
   "netSuiteUpload.restlet": "<RESTlet URL>",
+
+  // Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer"). Default if unset is "SuiteScripts".
+  "netSuiteUpload.rootDirectory": "<BASE FOLDER PATH>"
 
   // Temporary folder (e.g. C:\\temp or /tmp) - used for diffing files between local and remote.
   "netSuiteUpload.tempFolder": "<TEMP FOLDER PATH>"
 
-  // If using OAuth, fill out these
+  // AUTHENTICATION - Use either NLAuth or Token Auth.
+
+  // Authentication header for NLAuth. remove or comment out if using OAuth.
+  "netSuiteUpload.authentication": "NLAuth nlauth_account=<ACCOUNTID>, nlauth_email=<LOGIN>, nlauth_signature=<PASSWORD>, nlauth_role=<ROLE>",
+
+  // If using OAuth, set all of these.
   // Oauth NetSuite Key or Token ID
   "netSuiteUpload.netSuiteKey": "<NETSUITE TOKEN KEY>",
   // Oauth NetSuite Secret
@@ -153,13 +162,10 @@ If you wish to upload and download into the SuiteBundles folder by changing the 
   "netSuiteUpload.consumerSecret": "<CONSUMER SECRET>",
   // Account number
   "netSuiteUpload.realm": "<NETSUITE ACCOUNT NUMBER>",
-
-  // Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer"). Default if unset is "SuiteScripts".
-  "netSuiteUpload.rootDirectory": "<BASE FOLDER PATH>"
 }
 ```
 
-### keybindings.json
+## keybindings.json
 
 You can add keybindings for a number of operations.
 
@@ -174,6 +180,6 @@ You can remap or set new like so in your `keybindings.json` file:
 { "key": "ctrl+u",                "command": "netsuite-upload.uploadFile"},
 ```
 
-## Limitations
+## Known Issues and Limitations
 
 The plugin is using a RESTlet for the communication with NetSuite. RESTlets have some governance limitations, meaning NetSuite may throttle API calls if they are sent too rapidly. The current implementation does not deal with this, so there could be problems pulling folders containing a lot of items from NetSuite.
