@@ -71,7 +71,10 @@ You'll need to know how to publish a script and do a script deployment in NetSui
 - Create a new Script Deployment for this Script. Note the URL.
 - Edit your workspace or user settings in VS Code (see Settings section below) and set the RESTlet URL.
 
-_Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and read the Changelog._
+#### Special Notes Regarding the RESTlet
+
+- Future versions of this VS Code Extension may require that you upgrade the RESTlet file in NetSuite. Take note if the extension receives an update, and read the Changelog.
+- If you have an old version of the RESTlet in your Production NetSuite instance, and a new version in a SandBox NetSuite instance, be warned. A SandBox refresh might overwrite the SandBox RESTlet with the older version from Production.
 
 ### VSCode Project Setup
 
