@@ -124,8 +124,10 @@ This extension requires the use of a NetSuite RESTlet. That RESTlet will be mani
 At a minimum, the Role must have the following permissions:
 
 - Lists…Documents and Files: Full
+- Setup…Allow JS / HTML Uploads
 - Setup…Log in using Access Tokens: Full
 - Setup…SuiteScript: Full
+
 
 If you wish to upload and download into the **SuiteBundles folder** by changing the `rootDirectory` setting, add the following permission to your Role.
 
