@@ -2,7 +2,7 @@
   "name": "netsuite-upload",
   "displayName": "NetSuite Upload",
   "description": "Upload and download NetSuite SuiteScript files and folders.",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "publisher": "nsupload-org",
   "engines": {
     "vscode": "^1.22.2"
@@ -168,20 +168,22 @@
     "postinstall": "node ./node_modules/vscode/bin/install"
   },
   "devDependencies": {
-    "@types/mocha": "5.2.6",
-    "@types/node": "12.0.0",
-    "eslint": "5.16.0",
-    "mocha": "6.1.4",
-    "typescript": "3.4.5",
-    "vscode": "1.1.34"
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.8",
+    "eslint": "^6.1.0",
+    "mocha": "^6.2.0",
+    "typescript": "^3.5.3",
+    "vscode": "^1.1.35",
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "compare-versions": "3.4.0",
+    "compare-versions": "^3.5.0",
     "crypto": "1.0.1",
     "esprima": "4.0.1",
     "estraverse": "4.2.0",
-    "oauth-1.0a": "2.2.5",
-    "superagent": "5.0.5",
+    "oauth-1.0a": "^2.2.6",
+    "superagent": "^5.1.0",
     "underscore": "1.9.1"
   }
 }

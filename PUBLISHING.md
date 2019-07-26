@@ -1,6 +1,6 @@
 # Publishing Process
 
-Update package.json as needed.
+Update package.json as needed. Update the version number and consider updating any dependencies.
 
 Update `README.md` and `CHANGELOG.md` as needed.
 
