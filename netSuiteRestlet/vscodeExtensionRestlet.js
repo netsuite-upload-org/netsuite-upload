@@ -62,7 +62,7 @@ define(['N/file', 'N/search', 'N/record', 'N/log', 'N/error'], function (
   fileMap.mpp = fileMap.mpt = file.Type.MSPROJECT;
   fileMap.pdf = file.Type.PDF;
   fileMap.pjpeg = file.Type.PJPGIMAGE;
-  fileMap.prn = fileMap.txt = fileMap.log = fileMap.htc = fileMap.sql = file.Type.PLAINTEXT;
+  fileMap.prn = fileMap.txt = fileMap.log = fileMap.htc = fileMap.sql = fileMap.ts = file.Type.PLAINTEXT;
   fileMap.png = file.Type.PNGIMAGE;
   fileMap.ps = fileMap.eps = file.Type.POSTSCRIPT;
   fileMap.ppt = fileMap.pptx = file.Type.POWERPOINT;
