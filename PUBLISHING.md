@@ -11,8 +11,8 @@ Package and publish to VS Code Marketplace.
 Minor revision:
 
 ```powershell
-vsce publish minor|patch
 vsce package
+vsce publish minor|patch
 ```
 
 In Github, go to Releases tab. Create a new release.
