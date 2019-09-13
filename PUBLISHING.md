@@ -2,6 +2,8 @@
 
 Update package.json as needed. Update the version number and consider updating any dependencies.
 
+Use `npm audit` to check for security vulnerabilies and `npm audit fix` to fix them, then test.
+
 Update `README.md` and `CHANGELOG.md` as needed.
 
 Commit changes to github.
