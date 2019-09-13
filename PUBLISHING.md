@@ -20,7 +20,7 @@ Minor revision:
 
 ```powershell
 vsce package
-vsce publish minor|patch
+vsce publish 1.x.x
 ```
 
 ## Release in  Github
