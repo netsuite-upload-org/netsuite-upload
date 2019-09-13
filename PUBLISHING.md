@@ -1,14 +1,20 @@
 # Publishing Process
 
+## Making changes
+
+Create a branch, make changes in the branch.
+
 Update package.json as needed. Update the version number and consider updating any dependencies.
 
 Use `npm audit` to check for security vulnerabilies and `npm audit fix` to fix them, then test.
 
 Update `README.md` and `CHANGELOG.md` as needed.
 
-Commit changes to github.
+Commit the branch and open a PR for review.
 
-Package and publish to VS Code Marketplace.
+Review the code and when approved, merge to master.
+
+## Build with VSCE
 
 Minor revision:
 
@@ -28,5 +34,7 @@ Copy CHANGELOG.md details into the text area for "Describe this release."
 Drag the .vsix file outputted from `vsce package` into the "Attach binaries" area in the Github release.
 
 Click `Publish release` button.
+
+Package and publish to VS Code Marketplace.
 
 Done.
