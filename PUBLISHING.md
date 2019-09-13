@@ -4,7 +4,7 @@
 
 Create a branch, make changes in the branch.
 
-Update package.json as needed. Update the version number and consider updating any dependencies.
+Update package.json as needed. Update the version number manually and consider updating any dependencies.
 
 Use `npm audit` to check for security vulnerabilies and `npm audit fix` to fix them, then test.
 
@@ -20,7 +20,6 @@ Minor revision:
 
 ```powershell
 vsce package
-vsce publish 1.x.x
 ```
 
 ## Release in  Github
@@ -38,5 +37,11 @@ Drag the .vsix file outputted from `vsce package` into the "Attach binaries" are
 Click `Publish release` button.
 
 ## Release to VS Code Marketplace.
+
+Use same version number that you used in the `vsce package` step.
+
+```powershell
+vsce publish 1.x.x
+```
 
 Package and publish to VS Code Marketplace.
