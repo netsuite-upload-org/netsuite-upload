@@ -23,6 +23,8 @@ vsce package
 vsce publish minor|patch
 ```
 
+## Release in  Github
+
 In Github, go to Releases tab. Create a new release.
 
 Click "Draft a new release".
@@ -35,6 +37,6 @@ Drag the .vsix file outputted from `vsce package` into the "Attach binaries" are
 
 Click `Publish release` button.
 
-Package and publish to VS Code Marketplace.
+## Release to VS Code Marketplace.
 
-Done.
+Package and publish to VS Code Marketplace.
