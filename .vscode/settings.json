@@ -2,16 +2,22 @@
 {
   // we want to use the TS server from our node_modules folder to control its version
   "typescript.tsdk": "./node_modules/typescript/lib",
+
   // OAuth NetSuite Token ID
   "netSuiteUpload.netSuiteKey": "<INTEGRATION KEY>",
+
   // OAuth NetSuite Token Secret
   "netSuiteUpload.netSuiteSecret": "<INTEGRATION SECRET>",
+
   // OAuth NetSuite Consumer Key
   "netSuiteUpload.consumerToken": "<CONSUMER KEY>",
+
   // OAuth NetSuite Consumer Secret
   "netSuiteUpload.consumerSecret": "<CONSUMER SECRET>",
+
   // Account number
   "netSuiteUpload.realm": "<ACCOUNT NUMBER>",
+
   "editor.tabSize": 4,
   "javascript.format.enable": false,
   "editor.detectIndentation": true
