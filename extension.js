@@ -76,6 +76,27 @@ function activate(context) {
     });
     context.subscriptions.push(deleteFileDisposable);
 
+    let uploadFolderDisposable = vscode.commands.registerCommand('netsuite-upload.uploadFolder', (directory) => {
+        // Root SuiteScript folder has to be opened
+        if (!vscode.workspace.workspaceFolders.length) {
+            vscode.window.showErrorMessage(noProjectOpenedErrorMessage);
+            return;
+        }
+
+        if (!directory || !Object.keys(directory).length) {
+            if (!vscode.window.activeTextEditor && !vscode.window.activeTextEditor.document.uri) {
+                vscode.window.showErrorMessage(noFileSelectedErrorMessage);
+                return;
+            }
+            else {
+                let path = vscode.window.activeTextEditor.document.uri.path;
+                directory = vscode.Uri.file(path.substring(0, path.lastIndexOf("/")));
+            }
+        }
+        netSuiteBl.uploadDirectoryToNetSuite(directory);
+    });
+    context.subscriptions.push(uploadFolderDisposable);
+
     let downloadFolderDisposable = vscode.commands.registerCommand('netsuite-upload.downloadFolder', (directory) => {
         if (!directory) {
             vscode.window.showErrorMessage('No directory selected.');

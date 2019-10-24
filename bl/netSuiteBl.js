@@ -216,6 +216,12 @@ function addDependency(editor, pathText, paramText) {
     }
 }
 
+function uploadDirectoryToNetSuite(directory) {
+    // TODO: If needed add extension setting for exclude pattern
+    vscode.workspace.findFiles(new vscode.RelativePattern(directory.path, '*.*')).then(files => files.forEach(file => uploadFileToNetSuite(file)));
+}
+
+exports.uploadDirectoryToNetSuite = uploadDirectoryToNetSuite;
 exports.downloadFileFromNetSuite = downloadFileFromNetSuite;
 exports.previewFileFromNetSuite = previewFileFromNetSuite;
 exports.downloadDirectoryFromNetSuite = downloadDirectoryFromNetSuite;

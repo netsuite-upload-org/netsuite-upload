@@ -23,6 +23,7 @@ Right-click a file or folder in the navigation panel to see the context menu opt
 - `Delete file in NetSuite` - deletes a file in NetSuite
 - `Compare file with NetSuite` - diff your local version with the NetSuite version
 - `Pull folder from NetSuite` - Download the folder and all contents from NetSuite
+- `Push folder to NetSuite` - Uploads the folder and all contents to NetSuite
 
 ![Snippet & commands](img/netsuite_upload.gif)
 

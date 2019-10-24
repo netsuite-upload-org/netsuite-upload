@@ -27,6 +27,7 @@
     "onCommand:netsuite-upload.uploadFile",
     "onCommand:netsuite-upload.deleteFile",
     "onCommand:netsuite-upload.previewFile",
+    "onCommand:netsuite-upload.uploadFolder",
     "onCommand:netsuite-upload.downloadFolder",
     "onCommand:netsuite-upload.addCustomDependency",
     "onCommand:netsuite-upload.addNSDependency",
@@ -98,6 +99,11 @@
         "category": "NetSuite"
       },
       {
+        "command": "netsuite-upload.uploadFolder",
+        "title": "Push folder to NetSuite",
+        "category": "NetSuite"
+      },
+      {
         "command": "netsuite-upload.downloadFolder",
         "title": "Pull folder from NetSuite",
         "category": "NetSuite"
@@ -138,6 +144,11 @@
         {
           "when": "!explorerResourceIsFolder",
           "command": "netsuite-upload.deleteFile",
+          "group": "netsuite"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "netsuite-upload.uploadFolder",
           "group": "netsuite"
         },
         {
