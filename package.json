@@ -2,7 +2,7 @@
   "name": "netsuite-upload",
   "displayName": "NetSuite Upload",
   "description": "Upload and download NetSuite SuiteScript files and folders.",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "publisher": "nsupload-org",
   "engines": {
     "vscode": "^1.22.2"
