@@ -121,17 +121,14 @@
     "menus": {
       "editor/context": [
           {
-              "when": "resourceLangId == javascript",
               "command": "netsuite-upload.downloadFile",
               "group": "netsuite"
           },
           {
-              "when": "resourceLangId == javascript",
               "command": "netsuite-upload.uploadFile",
               "group": "netsuite"
           },
           {
-              "when": "resourceLangId == javascript",
               "command": "netsuite-upload.previewFile",
               "group": "netsuite"
           }
