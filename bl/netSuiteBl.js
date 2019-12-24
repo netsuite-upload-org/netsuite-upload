@@ -195,7 +195,7 @@ function addNetSuiteDependencyToActiveFile(editor) {
         });
 }
 
-function addDependency(editor, pathText, paramText) {
+async function addDependency(editor, pathText, paramText) {
     let docContent = editor.document.getText();
     let coords = codeChangeHelper.getCoords(docContent);
     let oldParamsString = docContent.substring(coords.depParam.range[0], coords.depParam.range[1]);
@@ -205,13 +205,13 @@ function addDependency(editor, pathText, paramText) {
         coords.depPath ? docContent.substring(coords.depPath.range[0], coords.depPath.range[1]) : null);
 
     if (coords.depPath) {
-        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
+        await codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
             coords.depParam.end.row - 1, coords.depParam.end.col, newParamsString);
 
-        codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col,
+        await codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col,
             coords.depPath.end.row - 1, coords.depPath.end.col, newPathArrayString);
     } else { // Path array not defined
-        codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
+        await codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
             coords.depParam.end.row - 1, coords.depParam.end.col, newPathArrayString + ', ' + newParamsString);
     }
 }
