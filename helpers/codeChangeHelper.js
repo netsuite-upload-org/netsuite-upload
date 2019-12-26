@@ -85,10 +85,10 @@ function getDocument (vsEditor) {
     return typeof vsEditor._documentData !== 'undefined' ? vsEditor._documentData : vsEditor._document
 }
 
-function editCurrentDocument(vsEditor, coords, content){
+async function editCurrentDocument(vsEditor, coords, content){
     var vsDocument = getDocument(vsEditor);
     var edit = setEditFactory(vsDocument._uri, coords, content);
-    vscode.workspace.applyEdit(edit);
+    await vscode.workspace.applyEdit(edit);
 }
 
 function replaceStringRange(source, replacement, from, to) {
@@ -140,7 +140,7 @@ function getUpdatedDepPath(newDependecyPath, oldString) {
     return "['" + newDependecyPath + "']";
 }
 
-function updateDocument(editor, startLine, startChar, endLine, endChar, content) {
+async function updateDocument(editor, startLine, startChar, endLine, endChar, content) {
     var editorCoords = {
         start : {
             line: startLine,
@@ -152,7 +152,7 @@ function updateDocument(editor, startLine, startChar, endLine, endChar, content)
         }
     }
     
-    editCurrentDocument(editor, editorCoords, content);
+    await editCurrentDocument(editor, editorCoords, content);
 }
 
 exports.getCoords = getCoords;

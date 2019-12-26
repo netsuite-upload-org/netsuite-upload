@@ -125,6 +125,20 @@
       }
     ],
     "menus": {
+      "editor/context": [
+          {
+              "command": "netsuite-upload.downloadFile",
+              "group": "netsuite"
+          },
+          {
+              "command": "netsuite-upload.uploadFile",
+              "group": "netsuite"
+          },
+          {
+              "command": "netsuite-upload.previewFile",
+              "group": "netsuite"
+          }
+      ],
       "explorer/context": [
         {
           "when": "!explorerResourceIsFolder",
