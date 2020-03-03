@@ -117,6 +117,7 @@ Generating the necessary tokens for OAuth is covered in the NetSuite help site. 
 - Second, log into a role you wish to use for authentication. From the "manage tokens center", generate a new token and secret using the Integration from the previous step.
 - Input the 4 values from above (NetSuite key and token and Consumer key and token) in the corresponding settings options.
 - Set the `realm` setting equal to your numeric NetSuite account number.
+- For sandbox and development accounts the `realm` setting is case-sensitive (i.e. 123456_SB1 not 123456_sb1 & TSTDRV123456 not tstdrv123456)
 
 ## Authorization - Required Role Permissions
 
