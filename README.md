@@ -1,16 +1,14 @@
-# netsuite-upload VS Code plugin
+# This project is seeking a NEW OWNER
+
+I can no longer maintain this tool, which I took over from the original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) in Feb 2019.
+
+If you or your company would like to see this tool progress, please consider taking it over.
+
+## netsuite-upload VS Code plugin
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/nsupload-org.netsuite-upload.svg)](https://marketplace.visualstudio.com/items?itemName=nsupload-org.netsuite-upload)
 
 **netsuite-upload** is a Visual Studio Code extension that allows you to manage your SuiteScript files directly from VS Code. It also helps you with defining new modules and adding server-side module dependecies.
-
-## Under New Management
-
-In February 2019, original author original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) transferred ownership of this project to me [@silverl](https://github.com/silverl). The last version under this line of development was `0.1.3`.
-
-New releases will be versioned `1.0+`.
-
-If you are having problems with the `1.0+` release line, then make sure you've updated the `vscodeExtensionRestlet.js` RESTlet to the latest version.
 
 ## Features
 
