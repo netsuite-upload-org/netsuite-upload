@@ -1,9 +1,3 @@
-# This project is seeking a NEW OWNER
-
-I can no longer maintain this tool, which I took over from the original author Tomáš Tvrdý [@tvrdytom](https://github.com/tvrdytom) in Feb 2019.
-
-If you or your company would like to see this tool progress, please consider taking it over.
-
 ## netsuite-upload VS Code plugin
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/nsupload-org.netsuite-upload.svg)](https://marketplace.visualstudio.com/items?itemName=nsupload-org.netsuite-upload)
