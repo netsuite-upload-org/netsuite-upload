@@ -11,7 +11,7 @@ define(['N/file', 'N/search', 'N/record', 'N/log', 'N/error'], function (
   error
 ) {
 
-  const RESTLET_VERSION = '1.0.2';
+  const RESTLET_VERSION = '1.2.4';
   const RESTLET_NAME = 'vscodeExtensionRestlet.js';
 
 
