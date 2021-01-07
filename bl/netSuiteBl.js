@@ -150,7 +150,17 @@ function downloadDirectoryFromNetSuite(directory) {
         if (hasNetSuiteError('ERROR downloading directory.', err, res)) return;
 
         res.body.forEach(function (file) {
-            var fullFilePath = path.join(vscode.workspace.rootPath, file.fullPath.replace(/^SuiteScripts\//, '').split('/').join(path.sep));
+            var fileFullPath = file.fullPath.split('/');
+            var pathToSubstract = path.join(vscode.workspace.getConfiguration('netSuiteUpload').rootDirectory || 'SuiteScripts').split('/') // when people type './SomeFolder' or '/SomeFolder' or 'SomeFolder', I need the proper path and do a split to substract this sequence from the filepath
+            while (pathToSubstract.length) {
+                var folderName = pathToSubstract.shift()
+                if (folderName == fileFullPath[0]) {
+                    fileFullPath.shift();
+                } else {
+                    break;
+                }
+            }
+            var fullFilePath = path.join(vscode.workspace.rootPath, fileFullPath.join(path.sep));
 
             createDirectoryIfNotExist(fullFilePath + (file.type == 'folder' ? path.sep + '_' : ''));
 
@@ -167,11 +177,10 @@ function downloadDirectoryFromNetSuite(directory) {
 
 function createDirectoryIfNotExist(filePath) {
     var dirname = path.dirname(filePath);
-
-    if (fs.existsSync(dirname)) {
+    var directoryExists = fs.existsSync(dirname);
+    if (directoryExists) {
         return true;
     }
-
     createDirectoryIfNotExist(dirname);
     fs.mkdirSync(dirname);
 }

@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.5] - 2021-01-07
+
+- Fixed [Issue #28](https://github.com/netsuite-upload-org/netsuite-upload/issues/28)  Directory Setting seems to apply differently between Pull Folder and Push/Pull file.
+### Changed
+- Changed function downloadDirectoryFromNetSuite body in netSuiteBl.js
 ## [1.2.4] - 2019-12-26
 
 - Closes Issue #31 "Add Netsuite dependency command doesn't work properly" https://github.com/netsuite-upload-org/netsuite-upload/issues/31
