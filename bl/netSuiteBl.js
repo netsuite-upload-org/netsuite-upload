@@ -151,7 +151,7 @@ function downloadDirectoryFromNetSuite(directory) {
 
         res.body.forEach(function (file) {
             var fileFullPath = file.fullPath.split('/');
-            var pathToSubstract = path.join(vscode.workspace.getConfiguration('netSuiteUpload').rootDirectory || 'SuiteScripts').split('/') // when people type './SomeFolder' or '/SomeFolder' or 'SomeFolder', I need the proper path and do a split to substract this sequence from the filepath
+            var pathToSubstract = path.join(vscode.workspace.getConfiguration('netSuiteUpload').rootDirectory || 'SuiteScripts').split(path.sep) // when people type './SomeFolder' or '/SomeFolder' or 'SomeFolder', I need the proper path and do a split to substract this sequence from the filepath
             while (pathToSubstract.length) {
                 var folderName = pathToSubstract.shift()
                 if (folderName == fileFullPath[0]) {
