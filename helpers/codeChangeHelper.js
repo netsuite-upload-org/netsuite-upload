@@ -82,12 +82,12 @@ function setEditFactory(uri, coords, content) {
 }
 
 function getDocument (vsEditor) {
-    return typeof vsEditor._documentData !== 'undefined' ? vsEditor._documentData : vsEditor._document
+    return typeof vsEditor.documentData !== 'undefined' ? vsEditor.documentData : vsEditor.document
 }
 
 async function editCurrentDocument(vsEditor, coords, content){
     var vsDocument = getDocument(vsEditor);
-    var edit = setEditFactory(vsDocument._uri, coords, content);
+    var edit = setEditFactory(vsDocument.uri, coords, content);
     await vscode.workspace.applyEdit(edit);
 }
 
