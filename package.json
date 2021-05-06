@@ -209,6 +209,6 @@
     "estraverse": "4.2.0",
     "oauth-1.0a": "^2.2.6",
     "superagent": "^5.1.0",
-    "underscore": "1.9.1"
+    "underscore": "1.12.1"
   }
 }
