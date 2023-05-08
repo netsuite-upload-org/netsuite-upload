@@ -29,7 +29,7 @@
 		"description": "Define Restlet script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType Restlet",
 			" */",
 			"define([], function() {",
@@ -65,7 +65,7 @@
 		"description": "Define User Event script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType UserEventScript",
 			" */",
 			"define([], function() {",
@@ -96,7 +96,7 @@
 		"description": "Define Client script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType ClientScript",
 			" */",
 			"define([], function() {",
@@ -162,7 +162,7 @@
 		"description": "Define Map/Reduce script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType MapReduceScript",
 			" */",
 			"define([], function() {",
@@ -198,7 +198,7 @@
 		"description": "Define Scheduled script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType ScheduledScript",
 			" */",
 			"define([], function() {",
@@ -219,7 +219,7 @@
 		"description": "Define Suitelet script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType Suitelet",
 			" */",
 			"define([], function() {",
@@ -240,12 +240,12 @@
 		"description": "Define Workflow Action script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType WorkflowActionScript",
 			" */",
 			"define([], function() {",
 			"",
-			"	function onAction(scriptContext) {",
+			"	function onAction(context) {",
 			"		$0",
 			"	}",
 			"",
@@ -261,7 +261,7 @@
 		"description": "Define Portlet script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.x",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType Portlet",
 			" */",
 			"define([], function() {",
@@ -282,7 +282,7 @@
 		"description": "Define Mass Update script module",
 		"body": [
 			"/**",
- 			" *@NApiVersion 2.0",
+ 			" *@NApiVersion 2.1",
 			" *@NScriptType MassUpdateScript",
 			" */",
 			"define([], function() {",
