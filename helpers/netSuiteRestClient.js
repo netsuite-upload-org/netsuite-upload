@@ -83,6 +83,9 @@ function getAuthHeader(method, data) {
 
 function doesRestletNeedUpdating(needsUpdating) {
     getRestletVersion((err, res) => {
+
+        console.log("doesRestletNeedUpdating", err, res)
+
         if (err || (compareVersions(res.body.restletVersion, "1.0.2") === -1)) {
             needsUpdating(true, err);
         } else {
@@ -92,6 +95,8 @@ function doesRestletNeedUpdating(needsUpdating) {
 }
 
 function getData(type, objectPath, callback) {
+
+    
     doesRestletNeedUpdating(function (needsUpdating, err) {
         if (needsUpdating) {
             callback(BAD_VERSION_ERROR, err);
@@ -106,6 +111,7 @@ function getData(type, objectPath, callback) {
         superagent.get(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
             .set("Content-Type", "application/json")
             .set("Authorization", getAuthHeader('GET', data))
+            .disableTLSCerts()
             .query(data)
             .end((err, res) => {
                 callback(err, res);
@@ -117,9 +123,11 @@ function getRestletVersion(callback) {
     var data = {
         type: "version"
     };
+    
     superagent.get(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
         .set("Content-Type", "application/json")
         .set("Authorization", getAuthHeader('GET', data))
+        .disableTLSCerts()
         .query(data)
         .end((err, res) => {
             callback(err, res);
@@ -147,6 +155,7 @@ function postData(type, objectPath, content, callback) {
         superagent.post(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
             .set("Content-Type", "application/json")
             .set("Authorization", getAuthHeader('POST', data))
+            .disableTLSCerts()
             .send(data)
             .end((err, res) => {
                 callback(err, res);
@@ -174,6 +183,7 @@ function deleteData(type, objectPath, callback) {
         superagent.delete(vscode.workspace.getConfiguration('netSuiteUpload').restlet)
             .set("Content-Type", "application/json")
             .set("Authorization", getAuthHeader('DELETE', data))
+            .disableTLSCerts()
             .query(data)
             .end((err, res) => {
                 callback(err, res);
